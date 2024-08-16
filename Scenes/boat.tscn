@@ -1,6 +1,54 @@
-[gd_scene load_steps=2 format=3 uid="uid://066v4xi0gjgg"]
+[gd_scene load_steps=3 format=3 uid="uid://066v4xi0gjgg"]
 
 [ext_resource type="Script" path="res://Scripts/boat_controller.gd" id="1_4oqbt"]
+[ext_resource type="PackedScene" uid="uid://2ip2e1815suy" path="res://Scenes/camera_holder.tscn" id="2_f7ogm"]
 
-[node name="Boat" type="Node3D"]
+[node name="Boat" type="Node3D" node_paths=PackedStringArray("body", "main_sheet", "jib", "telltale", "tiller")]
 script = ExtResource("1_4oqbt")
+body = NodePath("Body")
+main_sheet = NodePath("Body/Mast/MainSheet")
+jib = NodePath("Body/Mast/Jib")
+telltale = NodePath("Body/Mast/Telltale")
+tiller = NodePath("Body/Tiller")
+
+[node name="Body" type="Node3D" parent="."]
+
+[node name="Mast" type="Node3D" parent="Body"]
+
+[node name="Telltale" type="Node3D" parent="Body/Mast"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.13226, 9.99306, 0)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Body/Mast/Telltale"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.99134, 0.130005, 0.0457153)
+size = Vector3(1.72446, 0.350567, 0.194702)
+
+[node name="MainSheet" type="Node3D" parent="Body/Mast"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.76494, 2.45749, 0)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Body/Mast/MainSheet"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.36108, 3.35666, 0)
+size = Vector3(6.56076, 6.90039, 0.0476074)
+
+[node name="Jib" type="Node3D" parent="Body/Mast"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.26641, 1.82262, 0)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Body/Mast/Jib"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.19275, 3.05677, 0)
+size = Vector3(2.13304, 6.90039, 0.0476074)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Body/Mast"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.03718, 4.57711, 0)
+size = Vector3(0.46167, 10.8299, 0.500732)
+
+[node name="Tiller" type="Node3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.83081, 0.377019, 0)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Body/Tiller"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.520438, -1.68155, 0)
+size = Vector3(0.782654, 2.52828, 0.103271)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Body"]
+size = Vector3(14, 1.67571, 4.81592)
+
+[node name="CameraHolder" parent="." instance=ExtResource("2_f7ogm")]
+transform = Transform3D(2.285, 0, 0, 0, 2.285, 0, 0, 0, 2.285, 0, 13.292, 0)

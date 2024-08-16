@@ -5,7 +5,3 @@
 [node name="Game" type="Node3D"]
 
 [node name="Boat" parent="." instance=ExtResource("1_d2bg4")]
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.474897, -0.740547, 0.475461, 0.208116, 0.619451, 0.756946, -0.855079, -0.260521, 0.448295, 0, 16.2842, 0)
-light_energy = 0.61
