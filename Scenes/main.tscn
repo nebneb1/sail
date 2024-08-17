@@ -1,11 +1,39 @@
-[gd_scene load_steps=2 format=3 uid="uid://bcmg5n5kyhr1p"]
+[gd_scene load_steps=4 format=3 uid="uid://bcmg5n5kyhr1p"]
 
 [ext_resource type="PackedScene" uid="uid://066v4xi0gjgg" path="res://Scenes/boat.tscn" id="1_d2bg4"]
+[ext_resource type="PackedScene" uid="uid://2ip2e1815suy" path="res://Scenes/camera_holder.tscn" id="2_8scfn"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8j88q"]
 
 [node name="Game" type="Node3D"]
 
 [node name="Boat" parent="." instance=ExtResource("1_d2bg4")]
+transform = Transform3D(0.0131594, 0, 0.999913, 0, 1, 0, -0.999913, 0, 0.0131594, 0, 0, 0)
+main_sheet_accel = 0.0
+
+[node name="CameraHolder" parent="." node_paths=PackedStringArray("target") instance=ExtResource("2_8scfn")]
+transform = Transform3D(1.5182, 0, 1.70771, 0, 2.285, 0, -1.70771, 0, 1.5182, 0, 10.6668, 0)
+target = NodePath("../Boat")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.474897, -0.740547, 0.475461, 0.208116, 0.619451, 0.756946, -0.855079, -0.260521, 0.448295, 0, 16.2842, 0)
-light_energy = 0.61
+transform = Transform3D(-0.881531, -0.216512, 0.419553, 0.208116, 0.619451, 0.756947, -0.42378, 0.754589, -0.501005, 0, 16.2842, 0)
+light_energy = 0.125
+light_indirect_energy = 0.0
+directional_shadow_max_distance = 141.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.1782, 0)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.29965, -6.68159, 16.9316)
+size = Vector3(43.3764, 1, 70.1992)
+material = SubResource("StandardMaterial3D_8j88q")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.1782, 35.2354)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.1782, 78.9953)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.1782, 129.726)

@@ -1,17 +1,10 @@
 [gd_scene load_steps=3 format=3 uid="uid://066v4xi0gjgg"]
 
 [ext_resource type="Script" path="res://Scripts/boat_controller.gd" id="1_4oqbt"]
+[ext_resource type="PackedScene" uid="uid://2ip2e1815suy" path="res://Scenes/camera_holder.tscn" id="2_f7ogm"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s724b"]
-
-[node name="Boat" type="Node3D" node_paths=PackedStringArray("main_sheet", "jib", "telltale", "tiller")]
-transform = Transform3D(0.998544, 0, 0.0539394, 0, 1, 0, -0.0539394, 0, 0.998544, 0, 0, 0)
+[node name="Boat" type="Node3D"]
 script = ExtResource("1_4oqbt")
-main_sheet_accel = -10.0
-main_sheet = NodePath("Mast/MainSheet")
-jib = NodePath("Mast/Jib")
-telltale = NodePath("Mast/Telltale")
-tiller = NodePath("Tiller")
 
 [node name="Mast" type="Node3D" parent="."]
 
@@ -23,17 +16,17 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.99134, 0.130005, 0.0457153)
 size = Vector3(1.72446, 0.350567, 0.194702)
 
 [node name="MainSheet" type="Node3D" parent="Mast"]
-transform = Transform3D(0.695687, 0, 0.718345, 0, 1, 0, -0.718345, 0, 0.695687, -2.76494, 2.45749, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.76494, 2.45749, 0)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Mast/MainSheet"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.36108, 3.35666, 0)
 size = Vector3(6.56076, 6.90039, 0.0476074)
 
 [node name="Jib" type="Node3D" parent="Mast"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.0794, 1.82262, -0.151952)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.26641, 1.82262, 0)
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="Mast/Jib"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.51436, 3.05677, 0.146233)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.19275, 3.05677, 0)
 size = Vector3(2.13304, 6.90039, 0.0476074)
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="Mast"]
@@ -49,4 +42,6 @@ size = Vector3(0.782654, 2.52828, 0.103271)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 size = Vector3(14, 1.67571, 4.81592)
-material = SubResource("StandardMaterial3D_s724b")
+
+[node name="CameraHolder" parent="." instance=ExtResource("2_f7ogm")]
+transform = Transform3D(2.285, 0, 0, 0, 2.285, 0, 0, 0, 2.285, 0, 13.292, 0)
