@@ -1,23 +1,43 @@
-[gd_scene load_steps=4 format=3 uid="uid://bcmg5n5kyhr1p"]
+[gd_scene load_steps=9 format=3 uid="uid://bcmg5n5kyhr1p"]
 
+[ext_resource type="PackedScene" uid="uid://cywjt1arwsfc6" path="res://Assets/islandtest.glb" id="1_3i6a3"]
 [ext_resource type="PackedScene" uid="uid://066v4xi0gjgg" path="res://Scenes/boat.tscn" id="1_d2bg4"]
 [ext_resource type="PackedScene" uid="uid://2ip2e1815suy" path="res://Scenes/camera_holder.tscn" id="2_8scfn"]
+[ext_resource type="Material" uid="uid://cwy8hqw1tar0e" path="res://Scenes/Sea.tres" id="3_5kipy"]
+[ext_resource type="PackedScene" uid="uid://cbl2fy40q8681" path="res://Scenes/Player.tscn" id="5_o853e"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_16knq"]
+size = Vector2(200, 200)
+subdivide_width = 10
+subdivide_depth = 10
+orientation = 1
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8j88q"]
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_1p8el"]
+
 [node name="Game" type="Node3D"]
+
+[node name="islandtest" parent="." instance=ExtResource("1_3i6a3")]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 51.5976, -3.8147e-06, 0)
 
 [node name="Boat" parent="." instance=ExtResource("1_d2bg4")]
 transform = Transform3D(0.0131594, 0, 0.999913, 0, 1, 0, -0.999913, 0, 0.0131594, 0, 0, 0)
 main_sheet_accel = 0.0
 
 [node name="CameraHolder" parent="." node_paths=PackedStringArray("target") instance=ExtResource("2_8scfn")]
-transform = Transform3D(1.5182, 0, 1.70771, 0, 2.285, 0, -1.70771, 0, 1.5182, 0, 10.6668, 0)
+transform = Transform3D(2.285, 0, 0, 0, 2.285, 0, 0, 0, 2.285, 0, 0, 0)
 target = NodePath("../Boat")
+
+[node name="Ocean" type="MeshInstance3D" parent="CameraHolder"]
+transform = Transform3D(0.309457, 0, 0.309457, 0, 0.437637, 0, -0.309457, 0, 0.309457, 0, 0, 0)
+material_override = ExtResource("3_5kipy")
+mesh = SubResource("QuadMesh_16knq")
+skeleton = NodePath("../..")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.881531, -0.216512, 0.419553, 0.208116, 0.619451, 0.756947, -0.42378, 0.754589, -0.501005, 0, 16.2842, 0)
-light_energy = 0.125
+visible = false
 light_indirect_energy = 0.0
 directional_shadow_max_distance = 141.0
 
@@ -37,3 +57,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.1782, 78.9953)
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.1782, 129.726)
+
+[node name="Player" parent="." instance=ExtResource("5_o853e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0865952, 0.0345542, 1.60308)
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+physics_material_override = SubResource("PhysicsMaterial_1p8el")
+can_sleep = false
+continuous_cd = true
+contact_monitor = true
+
+[editable path="CameraHolder"]

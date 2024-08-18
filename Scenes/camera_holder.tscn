@@ -1,10 +1,17 @@
-[gd_scene load_steps=2 format=3 uid="uid://2ip2e1815suy"]
+[gd_scene load_steps=3 format=3 uid="uid://2ip2e1815suy"]
 
 [ext_resource type="Script" path="res://Scripts/camera_controller.gd" id="1_4kko8"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_k2a22"]
 
 [node name="CameraHolder" type="Node3D"]
 transform = Transform3D(2.285, 0, 0, 0, 2.285, 0, 0, 0, 2.285, 0, 0, 0)
 script = ExtResource("1_4kko8")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.138777, -0.257045, 0.257044, 0, 0.275139, 0.275139, -0.363516, -0.09813, 0.09813, 14.3974, 11.7622, 6.04748)
+transform = Transform3D(0.309456, -0.240492, 0.194747, 0, 0.275414, 0.340108, -0.309456, -0.240492, 0.194747, 18, 30, 18)
+projection = 1
+size = 50.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_k2a22")

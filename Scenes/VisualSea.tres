@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dxg68df3cx7ob"]
+
+[ext_resource type="Shader" uid="uid://dvjac2niv04gn" path="res://Scenes/main.tres" id="1_opg1b"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_opg1b")
+shader_parameter/ColorParameter = Color(0.075828, 0.328435, 0.425601, 1)

@@ -1,4 +1,4 @@
-extends Node3D
+extends AnimatableBody3D
 
 const THERORETICAL_MAX_SPEED = 15.0   # falls off quickly 6.17
 const SPEED_FALLOFF_POWER = 1.0
