@@ -1,17 +1,58 @@
-[gd_scene load_steps=3 format=3 uid="uid://2ip2e1815suy"]
+[gd_scene load_steps=6 format=3 uid="uid://2ip2e1815suy"]
 
 [ext_resource type="Script" path="res://Scripts/camera_controller.gd" id="1_4kko8"]
+[ext_resource type="Script" path="res://Scripts/vignette.gd" id="2_aw6r8"]
+[ext_resource type="Shader" path="res://Scripts/edge.gdshader" id="2_g0vcj"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_k2a22"]
 
-[node name="CameraHolder" type="Node3D"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3oxbt"]
+shader = ExtResource("2_g0vcj")
+shader_parameter/inner_radius = 0.16
+shader_parameter/outer_radius = 0.22
+shader_parameter/vignette_strength = 1.0
+shader_parameter/dither_strength = 0.03
+shader_parameter/vignette_color = Color(0.422817, 0.579602, 0.618797, 1)
+
+[node name="CameraHolder" type="Node3D" node_paths=PackedStringArray("sea", "zoom_in_pos", "zoom_out_pos")]
 transform = Transform3D(2.285, 0, 0, 0, 2.285, 0, 0, 0, 2.285, 0, 0, 0)
 script = ExtResource("1_4kko8")
+sea = NodePath("Control")
+zoom_in_pos = NodePath("Zoom_in")
+zoom_out_pos = NodePath("Zoom_out")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.309456, -0.240492, 0.194747, 0, 0.275414, 0.340108, -0.309456, -0.240492, 0.194747, 18, 30, 18)
+transform = Transform3D(0.309456, -0.240492, 0.194747, 0, 0.275414, 0.340107, -0.309456, -0.240492, 0.194747, 18, 31.4417, 18)
 projection = 1
-size = 50.0
+size = 64.286
+near = 0.001
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_k2a22")
+
+[node name="Control" type="Node2D" parent="."]
+position = Vector2(576, 324)
+scale = Vector2(3, 3)
+script = ExtResource("2_aw6r8")
+
+[node name="ColorRect" type="ColorRect" parent="Control"]
+z_index = -1
+material = SubResource("ShaderMaterial_3oxbt")
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -994.0
+offset_top = -811.0
+offset_right = 1006.0
+offset_bottom = 789.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Zoom_out" type="Marker3D" parent="."]
+transform = Transform3D(-0.707107, -0.707107, 4.37114e-08, -3.09086e-08, -3.09086e-08, -1, 0.707107, -0.707107, 1.91069e-15, 0, 42.1153, 0)
+
+[node name="Zoom_in" type="Marker3D" parent="."]
+transform = Transform3D(0.707107, -0.549525, 0.444997, 0, 0.629321, 0.777145, -0.707107, -0.549525, 0.444997, 18, 31.4417, 18)

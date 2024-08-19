@@ -1,0 +1,61 @@
+[gd_scene load_steps=12 format=3 uid="uid://r3ttgdkl0v2c"]
+
+[ext_resource type="Script" path="res://Scripts/music_controller.gd" id="1_sbwfo"]
+[ext_resource type="AudioStream" uid="uid://c3vgdld3w52dw" path="res://Audio/Music/[ARGAS]Morse.mp3" id="2_0guut"]
+[ext_resource type="AudioStream" uid="uid://dnk8gm46dk2bl" path="res://Audio/Music/[ARGAS]Flashes.mp3" id="3_tvxy4"]
+[ext_resource type="Script" path="res://Scripts/fader.gd" id="3_u35y1"]
+[ext_resource type="AudioStream" uid="uid://dfxlj4y4tmtf0" path="res://Audio/Music/[ARGAS]Guitar.mp3" id="4_52ue4"]
+[ext_resource type="AudioStream" uid="uid://fet1d1xnvo17" path="res://Audio/Music/[ARGAS]Pluck.mp3" id="5_jork2"]
+[ext_resource type="AudioStream" uid="uid://c654xr0rfmjvq" path="res://Audio/Music/[ARGAS]Theme Distant.mp3" id="6_nek3l"]
+[ext_resource type="AudioStream" uid="uid://c716io0xr0q2a" path="res://Audio/Music/[ARGAS]Theme.mp3" id="7_1jgr8"]
+[ext_resource type="AudioStream" uid="uid://dhq5jhqhlx8la" path="res://Audio/Music/[ARGAS]Synth.mp3" id="8_p1awt"]
+[ext_resource type="AudioStream" uid="uid://df5i0gwlcqtre" path="res://Audio/Music/[ARGAS]Main.ogg" id="9_jykb1"]
+[ext_resource type="AudioStream" uid="uid://div1idirkoyyt" path="res://Audio/Music/[ARGAS]Ocean.ogg" id="10_oc8uq"]
+
+[node name="MusicController" type="Node"]
+script = ExtResource("1_sbwfo")
+
+[node name="Morse" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_0guut")
+script = ExtResource("3_u35y1")
+
+[node name="Flashes" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_tvxy4")
+script = ExtResource("3_u35y1")
+
+[node name="Guitar" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_52ue4")
+script = ExtResource("3_u35y1")
+
+[node name="Pluck" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_jork2")
+script = ExtResource("3_u35y1")
+
+[node name="ThemeDistant" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_nek3l")
+script = ExtResource("3_u35y1")
+
+[node name="Theme" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_1jgr8")
+script = ExtResource("3_u35y1")
+
+[node name="Synth" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_p1awt")
+script = ExtResource("3_u35y1")
+
+[node name="BG" type="Node" parent="."]
+
+[node name="Main" type="AudioStreamPlayer" parent="BG"]
+stream = ExtResource("9_jykb1")
+volume_db = -80.0
+script = ExtResource("3_u35y1")
+
+[node name="Ocean" type="AudioStreamPlayer" parent="BG"]
+stream = ExtResource("10_oc8uq")
+volume_db = -80.0
+script = ExtResource("3_u35y1")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 15.0
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

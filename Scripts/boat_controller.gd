@@ -1,19 +1,25 @@
 extends AnimatableBody3D
 
+const SPEED_TILT_AMMOUNT = 2.0
+const ROCK_AMMOUNT = 3.0
 const THERORETICAL_MAX_SPEED = 15.0   # falls off quickly 6.17
 const SPEED_FALLOFF_POWER = 1.0
 const IRONS_SPEED_DECRESE_RATE = 0.1
-const accel = 1.0 # how fast speed goes to target speed m/s/s
+const accel = 0.3 # how fast speed goes to target speed m/s/s
 var potential_speed = 0.0 # maximum possible speed at ur heading
 #var drawback_multiplier = 0.9 # affected by how off the positioning of everything is, takes away from potential_speed
 var target_speed = 0.0 # your speed based on where u have everything positioned, speed naturally approaches this number
 var speed := 0.0
 
+const TILT_ACCEL = 2.0
+var target_tilt = 0.0
+var tilt :=  0.0
+
 var direction : float = 90.0 # in degrees cos im a masochist
 @export var rot_momentum : float = 0.0
 const ROT_DRAG = 0.5
 
-const SAIL_LIMITS = [18.0, 90.0]
+const SAIL_LIMITS = [12.0, 90.0]
 const SAIL_LEEWAY = 35.0
 var main_sheet_angle : float = SAIL_LIMITS[0]
 @export var main_sheet_target : float
@@ -23,7 +29,7 @@ var main_sheet_luffing := 0.0
 const JIB_LEEWAY = 0.1
 const JIB_TIGHTENING_SPEED = 0.2
 const JIB_PERFECT_IRONS_BOOST = 1.05
-const JIB_RANGES = [0.9, 0.95] # min for boost, max for perfect
+const JIB_RANGES = [0.85, 0.99] # min for boost, max for perfect
 var jib_perfect_boost := 1.0
 var jib_tightness : Array = [1.0, 0.0]
 var jib_target := 0.0
@@ -54,6 +60,7 @@ var prev_on_port := false
 var optimal_angle = 0.0 #remove an init in func after debug
 
 func _ready():
+	Global.boat = self
 	#print(fmod(269.7, 360), " ", fmod(-155, 360), fmod(0, 360))
 	Debug.track(self, "on_port")
 	Debug.track(self, "main_sheet_target")
@@ -67,8 +74,9 @@ func _ready():
 	Debug.track(self, "optimal_angle")
 	
 	
-
+var time = 0.0
 func _process(delta: float):
+	time += delta
 	disable_controls = false
 	if on_port:
 		if Input.is_action_pressed("pull_in") and not disable_controls:
@@ -185,8 +193,9 @@ func _process(delta: float):
 	jib.rotation_degrees.y = jib_angle
 	
 	speed += (target_speed - speed) * accel * delta
-	# speed = clamp(speed, 0.0, max_speed)
+	# speed = clamp(speed, 0.0, max_speed)1.261
 	global_position += Global.convert_vec(Vector2(-cos(deg_to_rad(direction)), sin(deg_to_rad(direction)))) * speed * delta
+	global_position.y = Global.GROUND_LEVEL
 	
 	if Input.is_action_pressed("tiller_left") and not disable_controls:
 		tiller_target = clamp(tiller_target + delta * tiller_speed, TILLER_LIMITS[0], TILLER_LIMITS[1])
@@ -212,19 +221,22 @@ func _process(delta: float):
 	
 	
 	
-	if not abs(tiller_angle) < 10:
+	if abs(tiller_angle) != 0.0:
 		rot_momentum = -tiller_angle * speed / 10.0
 	
 	
 	direction += rot_momentum * delta
 	rotation_degrees.y = direction
-	rotation_degrees.x = sin(danger_timer) * danger_timer
+	target_tilt = sin(time) * ROCK_AMMOUNT + speed * -(int(on_port)*2-1) * SPEED_TILT_AMMOUNT
+	tilt += (target_tilt - tilt) * TILT_ACCEL * delta
+	rotation_degrees.x = tilt
 	
 	
 	if prev_on_port != on_port:
 		main_sheet_accel = 3.0
 		main_sheet_target *= -1
 	prev_on_port = on_port 
+	
 
 func tighten_jib(port : bool, ammount : float):
 	if port:

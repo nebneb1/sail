@@ -11,6 +11,9 @@ var new_rot : float = 0.0
 var cur_rot : float = 0.0
 var cur_lean : float = 0.0
 
+func _ready():
+	Global.player = self
+
 func _integrate_forces(state):
 	input = Vector2(
 		Input.get_action_strength("down")-Input.get_action_strength("up"),

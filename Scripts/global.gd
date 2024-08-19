@@ -2,6 +2,12 @@ extends Node
 
 var wind_direction : float = 0
 var wind_speed : float = 10.0 # 10 is standard
+const GROUND_LEVEL = 1.261
+var game_started = true
+@onready var player : RigidBody3D
+@onready var boat : Node3D
+
+var scale_map = false
 
 var wind_thresholds : Array = [ # in radians
 	[0.0, 0.0], # sailable port
