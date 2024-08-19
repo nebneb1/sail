@@ -1,0 +1,34 @@
+[gd_resource type="Theme" load_steps=8 format=3 uid="uid://ba5khgw33k54f"]
+
+[ext_resource type="FontFile" uid="uid://bcb476cgdndqb" path="res://Assets/Pangolin-Regular.ttf" id="1_0ij50"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8sor2"]
+bg_color = Color(0, 0, 0, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ooiqr"]
+bg_color = Color(0, 0, 0, 0.407843)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ds4bw"]
+bg_color = Color(0, 0, 0, 0.388235)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q50r2"]
+bg_color = Color(0, 0, 0, 0.113725)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fqnn5"]
+bg_color = Color(0, 0, 0, 0.164706)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uauig"]
+bg_color = Color(0.160784, 0.160784, 0.160784, 0)
+
+[resource]
+default_font = ExtResource("1_0ij50")
+default_font_size = 150
+/colors/a = Color(1, 1, 1, 1)
+/styles/a = null
+Button/styles/disabled = SubResource("StyleBoxFlat_8sor2")
+Button/styles/focus = SubResource("StyleBoxFlat_ooiqr")
+Button/styles/hover = SubResource("StyleBoxFlat_ds4bw")
+Button/styles/normal = SubResource("StyleBoxFlat_q50r2")
+Button/styles/pressed = SubResource("StyleBoxFlat_fqnn5")
+Label/colors/font_shadow_color = Color(0, 0, 0, 0)
+Label/styles/normal = SubResource("StyleBoxFlat_uauig")

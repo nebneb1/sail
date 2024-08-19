@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://r3ttgdkl0v2c"]
+[gd_scene load_steps=16 format=3 uid="uid://r3ttgdkl0v2c"]
 
 [ext_resource type="Script" path="res://Scripts/music_controller.gd" id="1_sbwfo"]
 [ext_resource type="AudioStream" uid="uid://c3vgdld3w52dw" path="res://Audio/Music/[ARGAS]Morse.mp3" id="2_0guut"]
@@ -10,7 +10,111 @@
 [ext_resource type="AudioStream" uid="uid://c716io0xr0q2a" path="res://Audio/Music/[ARGAS]Theme.mp3" id="7_1jgr8"]
 [ext_resource type="AudioStream" uid="uid://dhq5jhqhlx8la" path="res://Audio/Music/[ARGAS]Synth.mp3" id="8_p1awt"]
 [ext_resource type="AudioStream" uid="uid://df5i0gwlcqtre" path="res://Audio/Music/[ARGAS]Main.ogg" id="9_jykb1"]
+[ext_resource type="AudioStream" uid="uid://c8rslrgug2xf2" path="res://Audio/Music/02. Time Until it Stops.mp3" id="10_g4rne"]
 [ext_resource type="AudioStream" uid="uid://div1idirkoyyt" path="res://Audio/Music/[ARGAS]Ocean.ogg" id="10_oc8uq"]
+[ext_resource type="AudioStream" uid="uid://df4lks4ncp3y5" path="res://Audio/Music/03. Vertigo.mp3" id="11_iato4"]
+
+[sub_resource type="GDScript" id="GDScript_groty"]
+script/source = "extends AudioStreamPlayer
+
+@export var vol_modifier = 1.0
+var on = true 
+var timer = 1.0
+var delta_timer = 0.0
+var vol := 1.0
+
+var targ := 0.0
+var manual_vol_overide := false
+var prev_playing = false
+func _process(delta):
+	if not playing and prev_playing:
+		Music.fade_in_all(15.0)
+		Music.disabled = false
+	
+	prev_playing = playing
+	if not manual_vol_overide:
+		if on: targ =  1.0
+		else: targ = 0.0
+	
+	if vol <= targ:
+		vol += delta/timer
+		
+	if vol >= targ:
+		vol -= delta/timer
+	
+#	if (db_to_linear(volume_db) <= targ and not on) or (db_to_linear(volume_db) >= targ and on):
+#		timer = 1.0
+	
+	#this needs to be removed, causes known bug
+#	vol = clamp(vol*vol_modifier, 0.0, 2.0)
+	if name == \"void\":
+		pass
+#		print(vol, \" \", vol_modifier, \" \", volume_db)
+	volume_db = linear_to_db(clamp(vol*vol_modifier, 0.0, 2.0))
+	
+
+func fade_out(time := 1.0):
+	timer = time
+	manual_vol_overide = false
+	on = false
+
+func fade_in(time := 1.0):
+	vol = 0.0
+	timer = time
+	manual_vol_overide = false
+	on = true
+"
+
+[sub_resource type="GDScript" id="GDScript_wv4gw"]
+script/source = "extends AudioStreamPlayer
+
+@export var vol_modifier = 1.0
+var on = true 
+var timer = 1.0
+var delta_timer = 0.0
+var vol := 1.0
+
+var targ := 0.0
+var manual_vol_overide := false
+var prev_playing = false
+func _process(delta):
+	if not playing and prev_playing:
+		Music.fade_in_all(15.0)
+		Music.disabled = false
+	
+	prev_playing = playing
+	if not manual_vol_overide:
+		if on: targ =  1.0
+		else: targ = 0.0
+	
+	if vol <= targ:
+		vol += delta/timer
+		
+	if vol >= targ:
+		vol -= delta/timer
+	
+#	if (db_to_linear(volume_db) <= targ and not on) or (db_to_linear(volume_db) >= targ and on):
+#		timer = 1.0
+	
+	#this needs to be removed, causes known bug
+#	vol = clamp(vol*vol_modifier, 0.0, 2.0)
+	if name == \"void\":
+		pass
+#		print(vol, \" \", vol_modifier, \" \", volume_db)
+	volume_db = linear_to_db(clamp(vol*vol_modifier, 0.0, 2.0))
+	
+
+func fade_out(time := 1.0):
+	timer = time
+	manual_vol_overide = false
+	on = false
+
+func fade_in(time := 1.0):
+	vol = 0.0
+	timer = time
+	manual_vol_overide = false
+	on = true
+"
 
 [node name="MusicController" type="Node"]
 script = ExtResource("1_sbwfo")
@@ -18,18 +122,22 @@ script = ExtResource("1_sbwfo")
 [node name="Morse" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_0guut")
 script = ExtResource("3_u35y1")
+vol_modifier = 0.6
 
 [node name="Flashes" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_tvxy4")
 script = ExtResource("3_u35y1")
+vol_modifier = 0.4
 
 [node name="Guitar" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_52ue4")
 script = ExtResource("3_u35y1")
+vol_modifier = 0.5
 
 [node name="Pluck" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_jork2")
 script = ExtResource("3_u35y1")
+vol_modifier = 0.5
 
 [node name="ThemeDistant" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_nek3l")
@@ -43,6 +151,16 @@ script = ExtResource("3_u35y1")
 stream = ExtResource("8_p1awt")
 script = ExtResource("3_u35y1")
 
+[node name="Rain1" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_g4rne")
+script = SubResource("GDScript_groty")
+vol_modifier = 0.1
+
+[node name="Rain2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_iato4")
+script = SubResource("GDScript_wv4gw")
+vol_modifier = 0.05
+
 [node name="BG" type="Node" parent="."]
 
 [node name="Main" type="AudioStreamPlayer" parent="BG"]
@@ -54,6 +172,7 @@ script = ExtResource("3_u35y1")
 stream = ExtResource("10_oc8uq")
 volume_db = -80.0
 script = ExtResource("3_u35y1")
+vol_modifier = 0.3
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 15.0

@@ -3,6 +3,7 @@ extends Node3D
 @export var target : Node3D
 @onready var camera = $Camera3D
 @export var sea : Node2D
+@export var sea2 : Node2D
 @export var zoom_in_pos : Node3D
 @export var zoom_out_pos : Node3D
 var velocity : Vector2 = Vector2.ZERO
@@ -18,7 +19,7 @@ const MAX_ZOOM = 100000.0
 var zoom_target = 60.0
 var zoom = 60.0
 
-const TOP_VIEW_THRESHOLD = 300.0
+const TOP_VIEW_THRESHOLD = 150.0
 const ZOOM_CONSTANT = 130.0
 const MOVE_SPEED = 1.0
 
@@ -27,8 +28,6 @@ var cam_target_rotation : Vector2
 
 func _ready():
 	enable()
-	Debug.track(self, "velocity")
-	Debug.track(self, "rotation")
 
 func disable():
 	movement_enabled = false
@@ -42,13 +41,14 @@ func _process(delta: float):
 	rotation.y += velocity.x*delta*SENSITIVITY.x
 	if velocity.x > 0: velocity.x -= velocity.x*DRAG*delta
 	elif velocity.x < 0: velocity.x -= velocity.x*DRAG*delta
-	global_position = target.global_position
+	if target: global_position = target.global_position
 	
 	if abs(zoom_target - zoom) > 0.001:
 		zoom += (zoom_target - zoom) * ZOOM_SPEED * delta
 	
 	camera.size = zoom
 	sea.scale = Vector2(ZOOM_CONSTANT/zoom, ZOOM_CONSTANT/zoom)
+	sea2.scale = Vector2(ZOOM_CONSTANT/zoom, ZOOM_CONSTANT/zoom)
 	
 	if zoom > TOP_VIEW_THRESHOLD:
 		cam_target_pos = zoom_out_pos.position
@@ -61,6 +61,9 @@ func _process(delta: float):
 	
 	camera.position += (cam_target_pos - camera.position) * MOVE_SPEED * delta
 	camera.rotation += (Vector3(cam_target_rotation.x, camera.rotation.y, cam_target_rotation.y) - camera.rotation) * MOVE_SPEED * delta
+	#if Global.mini_player:
+		#global_rotation_degrees.y = 90.0
+		#zoom_target = MIN_ZOOM
 
 
 func _input(event: InputEvent):

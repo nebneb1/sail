@@ -1,12 +1,64 @@
-[gd_scene load_steps=168 format=4 uid="uid://bcmg5n5kyhr1p"]
+[gd_scene load_steps=181 format=4 uid="uid://bcmg5n5kyhr1p"]
 
 [ext_resource type="PackedScene" uid="uid://cywjt1arwsfc6" path="res://Assets/islandtest.glb" id="1_3i6a3"]
 [ext_resource type="PackedScene" uid="uid://066v4xi0gjgg" path="res://Scenes/boat.tscn" id="1_d2bg4"]
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_evc5h"]
 [ext_resource type="PackedScene" uid="uid://2ip2e1815suy" path="res://Scenes/camera_holder.tscn" id="2_8scfn"]
+[ext_resource type="PackedScene" uid="uid://b764pxmmqrm48" path="res://Scenes/player2.tscn" id="2_okecr"]
 [ext_resource type="Material" uid="uid://cwy8hqw1tar0e" path="res://Scenes/Sea.tres" id="3_5kipy"]
+[ext_resource type="Script" path="res://Scripts/ocean.gd" id="3_6wdsf"]
 [ext_resource type="Script" path="res://Scripts/map_scale.gd" id="3_nhtqa"]
-[ext_resource type="PackedScene" uid="uid://cbl2fy40q8681" path="res://Scenes/Player.tscn" id="5_o853e"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8n6pr"]
+emission_enabled = true
+emission = Color(0, 0.521972, 0.617862, 1)
+emission_energy_multiplier = 1.38
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_cwvx6"]
+material = SubResource("StandardMaterial3D_8n6pr")
+radius = 0.0005
+height = 0.1
+
+[sub_resource type="GDScript" id="GDScript_e1qam"]
+script/source = "extends CPUParticles3D
+
+@export var target : Node3D
+#func _ready():
+	#Debug.track($CPUParticles3D, \"global_position\")
+enum Weather {
+	CLEAR,
+	FOGGY,
+	RAINY
+}
+var tweening = false
+func _process(delta: float):
+	global_position = Vector3(target.global_position.x, global_position.y, target.global_position.z)
+	global_rotation = target.global_rotation
+	#if get_parent().curr_weather == Weather.RAINY and not tweening:
+		#tweening = true
+		#amount = 1
+		#emitting = true
+		#var tween := create_tween()
+		#tween.tween_property(self, \"amount\", 3538, get_parent().WEATHER_CHANGE_DURR).set_ease(Tween.EASE_IN)
+	#
+	#if get_parent().curr_weather != Weather.RAINY and tweening:
+		#tweening = false
+		#amount = 3538
+		#emitting = true
+		#var tween := create_tween()
+		#tween.tween_property(self, \"amount\", 1, get_parent().WEATHER_CHANGE_DURR)
+		#connect(\"tween.finished\", Callable(self, \"disable\"))
+
+#func disable():
+	#emitting = false
+		
+"
+
+[sub_resource type="QuadMesh" id="QuadMesh_16knq"]
+size = Vector2(200, 200)
+subdivide_width = 10
+subdivide_depth = 10
+orientation = 1
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mp6bb"]
 resource_name = "Material.009"
@@ -529,6 +581,9 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_a8ako")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_eplno"]
+size = Vector3(2.16156, 1, 1.99213)
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_08ora"]
 _surfaces = [{
@@ -2300,6 +2355,41 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_2w8kf")
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_nlxog"]
+height = 0.411539
+radius = 0.601738
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_s6tnt"]
+height = 0.411539
+radius = 0.866866
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_4ycup"]
+height = 0.411539
+radius = 0.512251
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_nhfdc"]
+height = 0.411539
+radius = 0.417678
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_os1vm"]
+height = 0.411539
+radius = 0.0688236
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xpug6"]
+size = Vector3(2.67725, 0.760864, 0.28894)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_e3nqt"]
+size = Vector3(1, 0.458984, 4.15381)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_nh3ng"]
+size = Vector3(1, 0.458984, 4.15381)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mco2y"]
+size = Vector3(0.9646, 0.458984, 1.77222)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_re4u2"]
+size = Vector3(0.9646, 0.458984, 3.60541)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oqjvn"]
 resource_name = "Material.009"
 cull_mode = 2
@@ -2414,27 +2504,16 @@ shadow_mesh = SubResource("ArrayMesh_8gjxu")
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_yfofb"]
 data = PackedVector3Array(0.0726, -1, -1.1853, 0.2565, 1, -0.8775, -0.009, 1, -0.8648, 0.0726, -1, -1.1853, 0.3954, -1, -1.2044, 0.2565, 1, -0.8775, 0.3954, -1, -1.2044, 0.5962, 1, -0.6367, 0.2565, 1, -0.8775, 0.3954, -1, -1.2044, 0.6803, -1, -0.9696, 0.5962, 1, -0.6367, 0.6803, -1, -0.9696, 0.7937, 1, -0.4962, 0.5962, 1, -0.6367, 0.6803, -1, -0.9696, 0.942, -1, -0.7494, 0.7937, 1, -0.4962, 0.942, -1, -0.7494, 0.9561, 1, -0.3644, 0.7937, 1, -0.4962, 0.942, -1, -0.7494, 1.2, -1, -0.5502, 0.9561, 1, -0.3644, 1.2, -1, -0.5502, 1.1061, 1, 0.0042, 0.9561, 1, -0.3644, 1.2, -1, -0.5502, 1.325, -1, -0.1295, 1.1061, 1, 0.0042, 1.325, -1, -0.1295, 0.9481, 1, 0.2804, 1.1061, 1, 0.0042, 1.325, -1, -0.1295, 1.2531, -1, 0.3734, 0.9481, 1, 0.2804, 1.2531, -1, 0.3734, 0.691, 1, 0.472, 0.9481, 1, 0.2804, 1.2531, -1, 0.3734, 1.0978, -1, 0.7403, 0.691, 1, 0.472, 1.0978, -1, 0.7403, 0.4844, 1, 0.565, 0.691, 1, 0.472, 1.0978, -1, 0.7403, 0.7038, -1, 0.9239, 0.4844, 1, 0.565, 0.7038, -1, 0.9239, 0.2585, 1, 0.6284, 0.4844, 1, 0.565, 0.7038, -1, 0.9239, 0.3343, -1, 0.8781, 0.2585, 1, 0.6284, 0.3343, -1, 0.8781, 0.0006, 1, 0.8187, 0.2585, 1, 0.6284, 0.3343, -1, 0.8781, -0.0508, -1, 1.0664, 0.0006, 1, 0.8187, -0.0508, -1, 1.0664, -0.3, 1, 1.0049, 0.0006, 1, 0.8187, -0.0508, -1, 1.0664, -0.4348, -1, 1.1588, -0.3, 1, 1.0049, -0.4348, -1, 1.1588, -0.5725, 1, 0.8587, -0.3, 1, 1.0049, -0.4348, -1, 1.1588, -0.6515, -1, 0.9142, -0.5725, 1, 0.8587, -0.6515, -1, 0.9142, -0.7638, 1, 0.5515, -0.5725, 1, 0.8587, -0.6515, -1, 0.9142, -0.81, -1, 0.5894, -0.7638, 1, 0.5515, -0.81, -1, 0.5894, -0.8784, 1, 0.2064, -0.7638, 1, 0.5515, -0.81, -1, 0.5894, -0.9636, -1, 0.2806, -0.8784, 1, 0.2064, -0.9636, -1, 0.2806, -0.8926, 1, -0.1708, -0.8784, 1, 0.2064, -0.9636, -1, 0.2806, -1.0668, -1, -0.1512, -0.8926, 1, -0.1708, -1.0668, -1, -0.1512, -0.8356, 1, -0.5099, -0.8926, 1, -0.1708, -1.0668, -1, -0.1512, -1.0583, -1, -0.5627, -0.8356, 1, -0.5099, -1.0583, -1, -0.5627, -0.7074, 1, -0.7169, -0.8356, 1, -0.5099, -1.0583, -1, -0.5627, -0.908, -1, -0.9714, -0.7074, 1, -0.7169, -0.908, -1, -0.9714, -0.4978, 1, -0.7749, -0.7074, 1, -0.7169, -0.908, -1, -0.9714, -0.6385, -1, -1.2189, -0.4978, 1, -0.7749, -0.6385, -1, -1.2189, -0.2557, 1, -0.7977, -0.4978, 1, -0.7749, -0.6385, -1, -1.2189, -0.2833, -1, -1.1136, -0.2557, 1, -0.7977, -0.2833, -1, -1.1136, -0.009, 1, -0.8648, -0.2557, 1, -0.7977, -0.2833, -1, -1.1136, 0.0726, -1, -1.1853, -0.009, 1, -0.8648, -0.2833, -1, -1.1136, 0.3954, -1, -1.2044, 0.0726, -1, -1.1853, 0.3954, -1, -1.2044, 0.942, -1, -0.7494, 0.6803, -1, -0.9696, 0.942, -1, -0.7494, 1.325, -1, -0.1295, 1.2, -1, -0.5502, 1.325, -1, -0.1295, 1.0978, -1, 0.7403, 1.2531, -1, 0.3734, 1.0978, -1, 0.7403, 0.3343, -1, 0.8781, 0.7038, -1, 0.9239, 0.3343, -1, 0.8781, -0.4348, -1, 1.1588, -0.0508, -1, 1.0664, -0.4348, -1, 1.1588, -0.81, -1, 0.5894, -0.6515, -1, 0.9142, -0.81, -1, 0.5894, -1.0668, -1, -0.1512, -0.9636, -1, 0.2806, -1.0668, -1, -0.1512, -0.908, -1, -0.9714, -1.0583, -1, -0.5627, -0.908, -1, -0.9714, -0.2833, -1, -1.1136, -0.6385, -1, -1.2189, -0.2833, -1, -1.1136, 0.942, -1, -0.7494, 0.3954, -1, -1.2044, 0.942, -1, -0.7494, 1.0978, -1, 0.7403, 1.325, -1, -0.1295, 0.3343, -1, 0.8781, -0.81, -1, 0.5894, -0.4348, -1, 1.1588, 0.942, -1, -0.7494, 0.3343, -1, 0.8781, 1.0978, -1, 0.7403, -0.908, -1, -0.9714, 0.942, -1, -0.7494, -0.2833, -1, -1.1136, -0.81, -1, 0.5894, -0.908, -1, -0.9714, -1.0668, -1, -0.1512, 0.942, -1, -0.7494, -0.81, -1, 0.5894, 0.3343, -1, 0.8781, 0.942, -1, -0.7494, -0.908, -1, -0.9714, -0.81, -1, 0.5894, 0.5962, 1, -0.6367, -0.009, 1, -0.8648, 0.2565, 1, -0.8775, -0.2556, 1, -0.7977, -0.7075, 1, -0.7168, -0.4978, 1, -0.7749, 0.5962, 1, -0.6367, -0.2556, 1, -0.7977, -0.009, 1, -0.8648, 0.9561, 1, -0.3644, 0.5962, 1, -0.6367, 0.7937, 1, -0.4962, 0.9481, 1, 0.2804, 0.9561, 1, -0.3644, 1.1061, 1, 0.0042, 0.4844, 1, 0.5651, 0.9481, 1, 0.2804, 0.691, 1, 0.472, -0.3, 1, 1.0049, 0.2585, 1, 0.6284, 0.0006, 1, 0.8187, 0.2585, 1, 0.6284, 0.9481, 1, 0.2804, 0.4844, 1, 0.5651, 0.9481, 1, 0.2804, 0.5962, 1, -0.6367, 0.9561, 1, -0.3644, 0.5962, 1, -0.6367, -0.7075, 1, -0.7168, -0.2556, 1, -0.7977, -0.7075, 1, -0.7168, -0.8926, 1, -0.1708, -0.8355, 1, -0.5099, -0.8926, 1, -0.1708, -0.7638, 1, 0.5515, -0.8784, 1, 0.2064, -0.7638, 1, 0.5515, -0.3, 1, 1.0049, -0.5725, 1, 0.8587, 0.2585, 1, 0.6284, 0.5962, 1, -0.6367, 0.9481, 1, 0.2804, -0.7638, 1, 0.5515, 0.2585, 1, 0.6284, -0.3, 1, 1.0049, -0.7075, 1, -0.7168, -0.7638, 1, 0.5515, -0.8926, 1, -0.1708, 0.2585, 1, 0.6284, -0.7075, 1, -0.7168, 0.5962, 1, -0.6367, -0.7075, 1, -0.7168, 0.2585, 1, 0.6284, -0.7638, 1, 0.5515)
 
-[sub_resource type="QuadMesh" id="QuadMesh_16knq"]
-size = Vector2(200, 200)
-subdivide_width = 10
-subdivide_depth = 10
-orientation = 1
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8j88q"]
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_1p8el"]
-
-[sub_resource type="Sky" id="Sky_r3kav"]
+[sub_resource type="Sky" id="Sky_1ix7x"]
 
 [sub_resource type="Environment" id="Environment_g4td2"]
 background_mode = 2
-sky = SubResource("Sky_r3kav")
+sky = SubResource("Sky_1ix7x")
 glow_intensity = 8.0
 fog_enabled = true
 fog_light_color = Color(0.435294, 0.619608, 0.666667, 1)
 fog_density = 0.0
-fog_height = 30.0
-fog_height_density = 0.02
+fog_height_density = 16.0
 volumetric_fog_density = 0.0
 volumetric_fog_emission = Color(0.435294, 0.619608, 0.666667, 1)
 volumetric_fog_emission_energy = 0.0
@@ -2447,6 +2526,36 @@ adjustment_saturation = 0.84
 
 [node name="Game" type="Node3D"]
 script = ExtResource("1_evc5h")
+
+[node name="CPUParticles3D" type="CPUParticles3D" parent="." node_paths=PackedStringArray("target")]
+transform = Transform3D(0.319247, 0, 0.0583869, 0, 0.491679, 0, -0.0420523, 0, 0.443253, -147.118, 76.8152, 7.48135)
+emitting = false
+amount = 3538
+lifetime = 1.01
+mesh = SubResource("CapsuleMesh_cwvx6")
+emission_shape = 3
+emission_box_extents = Vector3(150, 1, 150)
+particle_flag_align_y = true
+direction = Vector3(-1, -1.945, 0)
+spread = 0.0
+gravity = Vector3(0, -132.3, 0)
+initial_velocity_max = 30.3
+scale_amount_min = 30.31
+scale_amount_max = 60.61
+script = SubResource("GDScript_e1qam")
+target = NodePath("../CameraHolder")
+
+[node name="Ocean" type="MeshInstance3D" parent="." node_paths=PackedStringArray("target")]
+transform = Transform3D(0.707109, 0, 0.707109, 0, 1, 0, -0.707109, 0, 0.707109, 0, 0, 0)
+material_override = ExtResource("3_5kipy")
+mesh = SubResource("QuadMesh_16knq")
+script = ExtResource("3_6wdsf")
+target = NodePath("../CameraHolder")
+
+[node name="Node3D" parent="." node_paths=PackedStringArray("camera_holder", "camera") instance=ExtResource("2_okecr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -98.6442, 4.77546, -10.1379)
+camera_holder = NodePath("../CameraHolder")
+camera = NodePath("../CameraHolder/Camera3D")
 
 [node name="spawnisland" type="Node3D" parent="."]
 transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, -86.3923, 0, 0)
@@ -2520,6 +2629,12 @@ skeleton = NodePath("")
 transform = Transform3D(1.32125, 0, 0.0184747, 0, 0.00954082, 0, -0.182668, 0, 0.133628, -2.52077, 0.0331935, -0.13996)
 mesh = SubResource("ArrayMesh_vo0im")
 skeleton = NodePath("")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="spawnisland/Cube_027"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="spawnisland/Cube_027/StaticBody3D"]
+transform = Transform3D(1, 0, -4.65661e-09, 0, 1, 0, -1.19209e-07, 0, 1, 0.0838351, 0, 0.0116258)
+shape = SubResource("BoxShape3D_eplno")
 
 [node name="Cube_028" type="MeshInstance3D" parent="spawnisland"]
 transform = Transform3D(0.0135993, 0, 0.0018901, 0, 0.0819514, 0, -0.0018901, 0, 0.0135993, -1.396, -0.0249159, -0.138778)
@@ -2786,6 +2901,66 @@ transform = Transform3D(0.0753473, -0.00178361, 0.000699796, 0.00376129, 0.04493
 mesh = SubResource("ArrayMesh_xld00")
 skeleton = NodePath("")
 
+[node name="hard_collider" type="Area3D" parent="spawnisland" groups=["hard_collider"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="spawnisland/hard_collider"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.57466, 0.198524, -0.564504)
+shape = SubResource("CylinderShape3D_nlxog")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="spawnisland/hard_collider"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.74634, 0.198524, -0.391863)
+shape = SubResource("CylinderShape3D_s6tnt")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="spawnisland/hard_collider"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00287008, 0.198523, 1.36311)
+shape = SubResource("CylinderShape3D_4ycup")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="spawnisland/hard_collider"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.08757, 0.198524, -1.69895)
+shape = SubResource("CylinderShape3D_nhfdc")
+
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="spawnisland/hard_collider"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6394, 0.00143819, -0.872705)
+shape = SubResource("CylinderShape3D_nhfdc")
+
+[node name="CollisionShape3D6" type="CollisionShape3D" parent="spawnisland/hard_collider"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.15027, -0.0650601, 0.166794)
+shape = SubResource("CylinderShape3D_nhfdc")
+
+[node name="CollisionShape3D10" type="CollisionShape3D" parent="spawnisland/hard_collider"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.748156, -0.0650602, -1.68197)
+shape = SubResource("CylinderShape3D_nhfdc")
+
+[node name="CollisionShape3D8" type="CollisionShape3D" parent="spawnisland/hard_collider"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.464462, -0.0650602, 2.34011)
+shape = SubResource("CylinderShape3D_os1vm")
+
+[node name="CollisionShape3D9" type="CollisionShape3D" parent="spawnisland/hard_collider"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.73522, -0.0650602, 0.749857)
+shape = SubResource("CylinderShape3D_os1vm")
+
+[node name="CollisionShape3D7" type="CollisionShape3D" parent="spawnisland/hard_collider"]
+transform = Transform3D(0.990411, 0, 0.138153, 0, 1, 0, -0.138153, 0, 0.990411, -2.51862, -0.184628, -0.136481)
+shape = SubResource("BoxShape3D_xpug6")
+
+[node name="soft_collider" type="Area3D" parent="spawnisland" groups=["soft_collider"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="spawnisland/soft_collider"]
+transform = Transform3D(0.423314, 0, 0.905983, 0, 1, 0, -0.905983, 0, 0.423314, -0.478216, -0.0719841, -1.96471)
+shape = SubResource("BoxShape3D_e3nqt")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="spawnisland/soft_collider"]
+transform = Transform3D(0.901629, 0, 0.432511, 0, 1, 0, -0.432511, 0, 0.901629, -1.79987, -0.0719841, -0.611314)
+shape = SubResource("BoxShape3D_nh3ng")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="spawnisland/soft_collider"]
+transform = Transform3D(0.965505, 0, 0.260387, 0, 1, 0, -0.260387, 0, 0.965505, -0.527103, -0.0719839, 1.87983)
+shape = SubResource("BoxShape3D_mco2y")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="spawnisland/soft_collider"]
+transform = Transform3D(0.596127, 0, -0.80289, 0, 1, 0, 0.80289, 0, 0.596127, 0.798003, -0.0719839, 2.24857)
+shape = SubResource("BoxShape3D_re4u2")
+
 [node name="spawnislandcol" type="Node3D" parent="."]
 transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, -64.0487, 0, -4.933)
 
@@ -2827,45 +3002,16 @@ script = ExtResource("3_nhtqa")
 ZOOM_SCALE = 300.0
 
 [node name="Boat" parent="." instance=ExtResource("1_d2bg4")]
-transform = Transform3D(0.0131594, 0, 0.999913, 0, 1, 0, -0.999913, 0, 0.0131594, 0, 1.2612, 0)
-main_sheet_accel = 0.0
+transform = Transform3D(-0.97558, 0, -0.219642, 0, 1, 0, 0.219642, 0, -0.97558, -146.505, 1.2612, 8.04907)
 
 [node name="CameraHolder" parent="." node_paths=PackedStringArray("target") instance=ExtResource("2_8scfn")]
-target = NodePath("../Boat")
-
-[node name="Ocean" type="MeshInstance3D" parent="CameraHolder"]
-transform = Transform3D(0.309457, 0, 0.309457, 0, 0.437637, 0, -0.309457, 0, 0.309457, 0, 0, 0)
-material_override = ExtResource("3_5kipy")
-mesh = SubResource("QuadMesh_16knq")
-skeleton = NodePath("../..")
+target = NodePath("../Node3D")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.881531, -0.216512, 0.419553, 0.208116, 0.619451, 0.756947, -0.42378, 0.754589, -0.501005, 0, 16.2842, 0)
 visible = false
 light_indirect_energy = 0.0
 directional_shadow_max_distance = 141.0
-
-[node name="CSGBox3D" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.1782, 0)
-
-[node name="CSGBox3D5" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.29965, -6.68159, 16.9316)
-size = Vector3(43.3764, 1, 70.1992)
-material = SubResource("StandardMaterial3D_8j88q")
-
-[node name="CSGBox3D2" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.1782, 35.2354)
-
-[node name="CSGBox3D3" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.1782, 78.9953)
-
-[node name="CSGBox3D4" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.1782, 129.726)
-
-[node name="Player" parent="." instance=ExtResource("5_o853e")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.96054, 5.09161, 1.60308)
-physics_material_override = SubResource("PhysicsMaterial_1p8el")
-camera_path = NodePath("../CameraHolder/Camera3D")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_g4td2")

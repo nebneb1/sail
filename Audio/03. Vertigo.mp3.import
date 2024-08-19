@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dkofbhr4d22a6"
+path="res://.godot/imported/03. Vertigo.mp3-c564f3512a78573dc50b4ccb10b60547.mp3str"
+
+[deps]
+
+source_file="res://Audio/03. Vertigo.mp3"
+dest_files=["res://.godot/imported/03. Vertigo.mp3-c564f3512a78573dc50b4ccb10b60547.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -17,7 +17,7 @@ var just_left_ground := false
 @export var y_movement : bool = true 
 
 func _ready():
-	Global.player = self
+	#Global.player = self
 	camera = get_node(camera_path)
 	
 func _integrate_forces(state):
@@ -70,6 +70,7 @@ func _integrate_forces(state):
 			#target_vel.z = clamp(target_vel.z, -max_vel/4, max_vel/4)
 	else:
 		target_vel.z = move_toward(target_vel.z, 0.0, state.step * ACCEL * 2)
+	
 	var pl_vel = Vector2(target_vel.x, target_vel.z)
 	if pl_vel.length() >= max_vel:
 		pl_vel = pl_vel.normalized() * max_vel

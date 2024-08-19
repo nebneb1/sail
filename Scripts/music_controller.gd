@@ -5,6 +5,7 @@ var music : Array = []
 var random_pool : Array = []
 
 
+
 func _ready():
 	randomize()
 	for child in get_children():
@@ -25,9 +26,10 @@ func _process(delta: float):
 		timer_started = true
 		$Timer.start()
 
+var disabled = false
 func _on_timer_timeout() -> void:
 	$Timer.start()
-	if randi_range(1,3) == 3: 
+	if randi_range(1,4) == 4 and not disabled: 
 		var count = 0
 		num_playing = clamp(num_playing + (randi_range(0, 1)*2-1), 1, 4)
 		var playing = []
@@ -61,3 +63,13 @@ func fade_in(song, time := 1.0):
 		
 func fade_out(song, time := 1.0):
 	get_song(song).fade_out(time)
+
+func fade_out_all(time := 1.0):
+	for song in music:
+		if song[0] != "Ocean":
+			song[1].fade_out(time)
+
+func fade_in_all(time := 1.0):
+	for song in music:
+		if song[0] != "Ocean":
+			song[1].fade_in(time)

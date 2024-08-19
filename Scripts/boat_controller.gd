@@ -2,7 +2,7 @@ extends AnimatableBody3D
 
 const SPEED_TILT_AMMOUNT = 2.0
 const ROCK_AMMOUNT = 3.0
-const THERORETICAL_MAX_SPEED = 15.0   # falls off quickly 6.17
+const THERORETICAL_MAX_SPEED = 10.0 #prev 15  # falls off quickly 6.17
 const SPEED_FALLOFF_POWER = 1.0
 const IRONS_SPEED_DECRESE_RATE = 0.1
 const accel = 0.3 # how fast speed goes to target speed m/s/s
@@ -14,15 +14,15 @@ const TILT_ACCEL = 2.0
 var target_tilt = 0.0
 var tilt :=  0.0
 
-var direction : float = 90.0 # in degrees cos im a masochist
-@export var rot_momentum : float = 0.0
+var direction : float = 10.0 # in degrees cos im a masochist
+var rot_momentum : float = 0.0
 const ROT_DRAG = 0.5
 
 const SAIL_LIMITS = [12.0, 90.0]
 const SAIL_LEEWAY = 35.0
 var main_sheet_angle : float = SAIL_LIMITS[0]
-@export var main_sheet_target : float
-@export var main_sheet_accel : float = 0.0
+var main_sheet_target : float
+var main_sheet_accel : float = 0.0
 var main_sheet_luffing := 0.0
 
 const JIB_LEEWAY = 0.1
@@ -50,7 +50,7 @@ var danger_timer = 0.0
 var on_port := false
 var prev_on_port := false
 
-@export var disable_controls := false
+var disable_controls := false
 
 @export var main_sheet_ghost : Node3D # Ghost for where the optimal main sheet is
 @export var main_sheet : Node3D # the larger sail twards the back
@@ -62,59 +62,69 @@ const GHOST_THRESHOLD = 10.0
 const GHOST_TIME = 3.0
 const GHOST_ACCEL = 1.0
 var ghost_timer = 0.0
-
+var hit_sand = false
 
 func _ready():
 	Global.boat = self
 	#print(fmod(269.7, 360), " ", fmod(-155, 360), fmod(0, 360))
-	Debug.track(self, "on_port")
-	Debug.track(self, "main_sheet_target")
-	Debug.track(self, "jib_tightness")
-	Debug.track(self, "tiller_angle")
-	Debug.track(self, "tiller_target")
-	Debug.track(self, "speed")
-	Debug.track(self, "direction")
-	Debug.track(self, "target_speed")
-	Debug.track(self, "potential_speed")
-	Debug.track(self, "optimal_angle")
+	#Debug.track(self, "on_port")
+	#Debug.track(self, "main_sheet_target")
+	#Debug.track(self, "jib_tightness")
+	#Debug.track(self, "tiller_angle")
+	#Debug.track(self, "tiller_target")
+	#Debug.track(self, "speed")
+	#Debug.track(self, "direction")
+	#Debug.track(self, "target_speed")
+	#Debug.track(self, "potential_speed")
+	#Debug.track(self, "optimal_angle")
 	
 	
 var time = 0.0
-func _process(delta: float):
+var pull_mainsheet_in : bool = false
+var pull_mainsheet_out : bool = false
+var pull_starboard_jib_in : bool = false
+var pull_starboard_jib_out : bool = false
+var pull_port_jib_in : bool = false
+var pull_port_jib_out : bool = false
+var tiller_left : bool = false
+var tiller_right : bool = false
+@export var anchor_down : bool = true
+
+func _physics_process(delta: float):
 	time += delta
 	disable_controls = false
 	if on_port:
-		if Input.is_action_pressed("pull_in") and not disable_controls:
+		if pull_mainsheet_in and not disable_controls:
 			main_sheet_accel = 10.0
 			main_sheet_target = clamp(main_sheet_target - main_sheet_accel * delta, SAIL_LIMITS[0], SAIL_LIMITS[1])
 			
 			
-		elif Input.is_action_pressed("pull_out") and not disable_controls:
+		elif pull_mainsheet_out and not disable_controls:
 			main_sheet_accel = 100.0
 			main_sheet_target = clamp(main_sheet_target + main_sheet_accel * delta, SAIL_LIMITS[0], SAIL_LIMITS[1])
 			main_sheet_accel = 10.0
 	else:
-		if Input.is_action_pressed("pull_in") and not disable_controls:
+		if pull_mainsheet_in and not disable_controls:
 			main_sheet_accel = 10.0
 			main_sheet_target = clamp(main_sheet_target - main_sheet_accel * delta * -1, -SAIL_LIMITS[1], -SAIL_LIMITS[0])
 			
 			
 			
-		elif Input.is_action_pressed("pull_out") and not disable_controls:
+		elif pull_mainsheet_out and not disable_controls:
 			main_sheet_accel = 100.0
 			main_sheet_target = clamp(main_sheet_target + main_sheet_accel * delta * -1, -SAIL_LIMITS[1], -SAIL_LIMITS[0])
 			main_sheet_accel = 10.0
 		
-	if Input.is_action_pressed("jib_port_in") and not disable_controls:
+	if pull_port_jib_in and not disable_controls:
 		tighten_jib(true, JIB_TIGHTENING_SPEED * delta)
 	
-	if Input.is_action_pressed("jib_star_in") and not disable_controls:
+	if pull_starboard_jib_in and not disable_controls:
 		tighten_jib(false, JIB_TIGHTENING_SPEED * delta)
 	
-	if Input.is_action_pressed("jib_port_out") and not disable_controls:
+	if pull_port_jib_out and not disable_controls:
 		tighten_jib(true, -JIB_TIGHTENING_SPEED * delta * 2.0)
 	
-	if Input.is_action_pressed("jib_star_out") and not disable_controls:
+	if pull_port_jib_out and not disable_controls:
 		tighten_jib(false, -JIB_TIGHTENING_SPEED * delta * 2.0)
 	
 		
@@ -196,16 +206,26 @@ func _process(delta: float):
 	jib_target = (jib_tightness[0] - jib_tightness[1]) * SAIL_LIMITS[1]/2.0
 	jib_angle += (jib_target - jib_angle) * jib_accel * delta
 	jib.rotation_degrees.y = jib_angle
+	if anchor_down or hit_sand: 
+		if Global.game_started != true:
+			Global.game_started = true
+		target_speed = 0.0
+		if hit_sand and not anchor_down:
+			target_speed = -1.0
+			rot_momentum = -1.0
 	
-	speed += (target_speed - speed) * accel * delta
+	if target_speed > 2.5 and not $IslandCollider.get_overlapping_areas().has(Global.player.get_node("Area3D")):
+		target_speed = 2.5
+	
+	speed += (target_speed - speed) * accel * delta * (float(anchor_down or hit_sand)*2+1)
 	# speed = clamp(speed, 0.0, max_speed)1.261
 	global_position += Global.convert_vec(Vector2(-cos(deg_to_rad(direction)), sin(deg_to_rad(direction)))) * speed * delta
 	global_position.y = Global.GROUND_LEVEL
 	
-	if Input.is_action_pressed("tiller_left") and not disable_controls:
+	if tiller_left and not disable_controls:
 		tiller_target = clamp(tiller_target + delta * tiller_speed, TILLER_LIMITS[0], TILLER_LIMITS[1])
 		
-	elif Input.is_action_pressed("tiller_right") and not disable_controls:
+	elif tiller_right and not disable_controls:
 		tiller_target = clamp(tiller_target - delta * tiller_speed, TILLER_LIMITS[0], TILLER_LIMITS[1])
 	
 	elif abs(tiller_target) < 1.0:
@@ -293,3 +313,23 @@ func calculate_difference(angle1 : float, angle2 : float): # thanks gdforms !
 	if angle > 180.0:
 		return 360.0 - angle
 	return angle
+
+const COLLISION_SPEED_LOSS = 0.8
+const COLLISION_ROT_MOME_RANGE = 10.0
+func _on_island_collider_area_entered(area: Area3D) -> void:
+	if area.is_in_group("hard_collider"):
+		speed = -speed * COLLISION_SPEED_LOSS
+		anchor_down = false
+		rot_momentum = randf_range(COLLISION_ROT_MOME_RANGE, -COLLISION_ROT_MOME_RANGE)
+	elif area.is_in_group("soft_collider"):
+		anchor_down = true
+		hit_sand = true
+
+
+func _on_island_collider_area_exited(area: Area3D) -> void:
+	if area.is_in_group("soft_collider"):
+		$sand_time.start()
+
+
+func _on_sand_time_timeout() -> void:
+	hit_sand = false

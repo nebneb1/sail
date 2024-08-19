@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://b764pxmmqrm48"]
+
+[ext_resource type="Script" path="res://Scripts/player_controller.gd" id="1_l621y"]
+[ext_resource type="PackedScene" uid="uid://de02bkt1txtm7" path="res://Assets/playertest.glb" id="2_lq5b7"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_wus60"]
+height = 3.23511
+
+[node name="Node3D" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.53345, 0)
+floor_constant_speed = true
+platform_on_leave = 2
+script = ExtResource("1_l621y")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6138, 0)
+shape = SubResource("CylinderShape3D_wus60")
+
+[node name="playertest" parent="." instance=ExtResource("2_lq5b7")]
+transform = Transform3D(19.2772, -2.88469e-08, -5.32828, -0.809913, 19.7676, -2.93019, 5.26637, 3.04005, 19.0532, 0.0503197, -1.87886, -0.684384)
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6138, 0)
+shape = SubResource("CylinderShape3D_wus60")
+
+[connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]
+[connection signal="area_exited" from="Area3D" to="." method="_on_area_3d_area_exited"]
