@@ -1,0 +1,45 @@
+> compass-1 > T
+| init
+c |-| evening 
+c |-| *burps*
+c |-| well that just happened
+
+#> compass-2 > T
+#| init
+#c |-| 
+
+
+#> faraday-1 > T
+#| init
+#f |-| 
+
+#> faraday-2 > T
+#| init
+#f |-| 
+
+
+#> widow-1 > T
+#| init
+#w |-| 
+
+#> widow-2 > T
+#| init
+#w |-| 
+
+
+#> goliath-1 > T
+#| init
+#m |-| 
+
+#> goliath-2 > T
+#| init
+#m |-| 
+
+
+#> grandpa-1 > T
+#| init
+#g |-| 
+
+#> grandpa-2 > T
+#| init
+#g |-| 

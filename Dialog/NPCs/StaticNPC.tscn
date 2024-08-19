@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://drbqcv7ncy4ux"]
+
+[ext_resource type="Script" path="res://Dialog/NPCs/StaticNPC.gd" id="1_8o8yl"]
+[ext_resource type="PackedScene" uid="uid://bixi67x2r0wwx" path="res://Dialog/Dialog.tscn" id="2_y75fg"]
+[ext_resource type="PackedScene" uid="uid://bqxadnnukgmy1" path="res://Scenes/Notifier.tscn" id="3_cy5s6"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_n1ws0"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_c5584"]
+height = 4.42923
+radius = 1.01887
+
+[node name="StaticNPC" type="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+script = ExtResource("1_8o8yl")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+size = Vector2i(960, 540)
+render_target_update_mode = 4
+
+[node name="DialogBubble" parent="SubViewport" instance=ExtResource("2_y75fg")]
+visible = false
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.71304, 0)
+visible = false
+pixel_size = 0.001
+billboard = 1
+no_depth_test = true
+fixed_size = true
+render_priority = 11
+texture = SubResource("ViewportTexture_n1ws0")
+
+[node name="Notifier" parent="." instance=ExtResource("3_cy5s6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.706, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CylinderShape3D_c5584")

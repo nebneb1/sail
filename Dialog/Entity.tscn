@@ -1,0 +1,57 @@
+[gd_scene load_steps=8 format=3 uid="uid://oc2obqw3r1m8"]
+
+[ext_resource type="Script" path="res://Dialog/Entity.gd" id="1_jvtct"]
+[ext_resource type="PackedScene" uid="uid://bixi67x2r0wwx" path="res://Dialog/Dialog.tscn" id="3_fls1h"]
+[ext_resource type="PackedScene" uid="uid://bqxadnnukgmy1" path="res://Scenes/Notifier.tscn" id="4_ix1uk"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ni82u"]
+friction = 0.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_nr4rd"]
+height = 6.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ubyxt"]
+shading_mode = 0
+albedo_color = Color(1, 0, 1, 1)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_jrcb6"]
+viewport_path = NodePath("SubViewport")
+
+[node name="Entity" type="RigidBody3D"]
+collision_mask = 6
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 40.0
+physics_material_override = SubResource("PhysicsMaterial_ni82u")
+lock_rotation = true
+continuous_cd = true
+contact_monitor = true
+max_contacts_reported = 5
+script = ExtResource("1_jvtct")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+mesh = SubResource("CylinderMesh_nr4rd")
+surface_material_override/0 = SubResource("StandardMaterial3D_ubyxt")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+size = Vector2i(960, 540)
+render_target_update_mode = 4
+
+[node name="DialogBubble" parent="SubViewport" instance=ExtResource("3_fls1h")]
+visible = false
+
+[node name="Notifier" parent="." instance=ExtResource("4_ix1uk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0)
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
+visible = false
+pixel_size = 0.001
+billboard = 1
+no_depth_test = true
+fixed_size = true
+render_priority = 11
+texture = SubResource("ViewportTexture_jrcb6")

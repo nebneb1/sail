@@ -1,0 +1,165 @@
+[gd_scene load_steps=11 format=3 uid="uid://bqxadnnukgmy1"]
+
+[ext_resource type="Script" path="res://Scenes/Notifier.gd" id="1_o7cpd"]
+[ext_resource type="Texture2D" uid="uid://dm8bhu77873d2" path="res://Assets/Dots2.png" id="2_ila4t"]
+[ext_resource type="Texture2D" uid="uid://c6uwswi3um3ur" path="res://Assets/Dots.png" id="3_a7woa"]
+[ext_resource type="Texture2D" uid="uid://co5rp4gc76pmj" path="res://Assets/Tiller2.png" id="4_sptgx"]
+[ext_resource type="Texture2D" uid="uid://bmtcxmt86yoph" path="res://Assets/Tiller.png" id="5_tw7ft"]
+
+[sub_resource type="Animation" id="Animation_e1np0"]
+resource_name = "close_noti"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 4.92458),
+"update": 0,
+"values": [Vector3(1, 1, 1), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_tmp2i"]
+resource_name = "idle_noti"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(1, 1, 1), Vector3(0.917, 0.917, 0.917), Vector3(1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_g0qx0"]
+resource_name = "open_noti"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 3.36358),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_c4t18"]
+_data = {
+"close_noti": SubResource("Animation_e1np0"),
+"idle_noti": SubResource("Animation_tmp2i"),
+"open_noti": SubResource("Animation_g0qx0")
+}
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fqnwu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_sptgx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_tw7ft")
+}],
+"loop": true,
+"name": &"anchor",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_sptgx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_tw7ft")
+}],
+"loop": true,
+"name": &"jib_port",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_sptgx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_tw7ft")
+}],
+"loop": true,
+"name": &"jib_starboard",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_sptgx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_tw7ft")
+}],
+"loop": true,
+"name": &"main_sheet",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"null",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_ila4t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_a7woa")
+}],
+"loop": true,
+"name": &"talk",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_sptgx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_tw7ft")
+}],
+"loop": true,
+"name": &"tiller",
+"speed": 4.0
+}]
+
+[node name="Notifier" type="Node3D"]
+script = ExtResource("1_o7cpd")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+visible = false
+pixel_size = 0.001
+billboard = 1
+no_depth_test = true
+fixed_size = true
+render_priority = 10
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_c4t18")
+}
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+pixel_size = 0.0014
+billboard = 1
+no_depth_test = true
+fixed_size = true
+texture_filter = 0
+render_priority = 10
+sprite_frames = SubResource("SpriteFrames_fqnwu")
+animation = &"tiller"
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

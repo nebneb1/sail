@@ -1,0 +1,19 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://gxan8xgd0n0s"]
+
+[ext_resource type="Shader" path="res://Episodes/EpisodeTemplate.gdshader" id="1_n7ysa"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_0pdta"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_jsl07"]
+width = 1920
+height = 1080
+seamless = true
+seamless_blend_skirt = 1.0
+noise = SubResource("FastNoiseLite_0pdta")
+
+[resource]
+shader = ExtResource("1_n7ysa")
+shader_parameter/speed = 10.0
+shader_parameter/scale = 0.015
+shader_parameter/BIAS = 1.0
+shader_parameter/noise = SubResource("NoiseTexture2D_jsl07")

@@ -1,0 +1,59 @@
+[gd_scene load_steps=7 format=3 uid="uid://dbq6mmlkgd4ty"]
+
+[ext_resource type="Script" path="res://Dialog/SceneController.gd" id="1_2ss1d"]
+[ext_resource type="Shader" path="res://Dialog/SceneController.gdshader" id="2_0rxgv"]
+[ext_resource type="PackedScene" uid="uid://5hnm61m8niaq" path="res://Dialog/ScreenShaders.tscn" id="4_sipwd"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_5i247"]
+noise_type = 4
+seed = 2
+frequency = 0.001
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_tp50k"]
+width = 1920
+height = 1080
+noise = SubResource("FastNoiseLite_5i247")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g537t"]
+shader = ExtResource("2_0rxgv")
+shader_parameter/circle_size = -0.2
+shader_parameter/screen_width = 1920.0
+shader_parameter/screen_height = 1080.0
+shader_parameter/speed = 1.0
+shader_parameter/scale = 0.068
+shader_parameter/BIAS = 1.0
+shader_parameter/noise = SubResource("NoiseTexture2D_tp50k")
+
+[node name="SceneController" type="Node"]
+script = ExtResource("1_2ss1d")
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer2"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 11
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+material = SubResource("ShaderMaterial_g537t")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="ScreenShaders" parent="." instance=ExtResource("4_sipwd")]
+script = null
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

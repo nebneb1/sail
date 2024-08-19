@@ -1,23 +1,26 @@
-[gd_scene load_steps=181 format=4 uid="uid://bcmg5n5kyhr1p"]
+[gd_scene load_steps=183 format=4 uid="uid://bcmg5n5kyhr1p"]
 
 [ext_resource type="PackedScene" uid="uid://cywjt1arwsfc6" path="res://Assets/islandtest.glb" id="1_3i6a3"]
 [ext_resource type="PackedScene" uid="uid://066v4xi0gjgg" path="res://Scenes/boat.tscn" id="1_d2bg4"]
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_evc5h"]
 [ext_resource type="PackedScene" uid="uid://2ip2e1815suy" path="res://Scenes/camera_holder.tscn" id="2_8scfn"]
 [ext_resource type="PackedScene" uid="uid://b764pxmmqrm48" path="res://Scenes/player2.tscn" id="2_okecr"]
+[ext_resource type="PackedScene" uid="uid://emfj1fwxctyu" path="res://Assets/starterisland.glb" id="2_y5snl"]
 [ext_resource type="Material" uid="uid://cwy8hqw1tar0e" path="res://Scenes/Sea.tres" id="3_5kipy"]
 [ext_resource type="Script" path="res://Scripts/ocean.gd" id="3_6wdsf"]
 [ext_resource type="Script" path="res://Scripts/map_scale.gd" id="3_nhtqa"]
+[ext_resource type="PackedScene" uid="uid://drbqcv7ncy4ux" path="res://Dialog/NPCs/StaticNPC.tscn" id="10_by651"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8n6pr"]
-emission_enabled = true
-emission = Color(0, 0.521972, 0.617862, 1)
-emission_energy_multiplier = 1.38
+shading_mode = 0
+albedo_color = Color(0.718974, 0.821353, 0.815038, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_cwvx6"]
 material = SubResource("StandardMaterial3D_8n6pr")
-radius = 0.0005
-height = 0.1
+radius = 0.001
+height = 0.08
+radial_segments = 4
+rings = 1
 
 [sub_resource type="GDScript" id="GDScript_e1qam"]
 script/source = "extends CPUParticles3D
@@ -2509,6 +2512,7 @@ data = PackedVector3Array(0.0726, -1, -1.1853, 0.2565, 1, -0.8775, -0.009, 1, -0
 [sub_resource type="Environment" id="Environment_g4td2"]
 background_mode = 2
 sky = SubResource("Sky_1ix7x")
+tonemap_mode = 2
 glow_intensity = 8.0
 fog_enabled = true
 fog_light_color = Color(0.435294, 0.619608, 0.666667, 1)
@@ -2527,19 +2531,23 @@ adjustment_saturation = 0.84
 [node name="Game" type="Node3D"]
 script = ExtResource("1_evc5h")
 
+[node name="starterisland" parent="." instance=ExtResource("2_y5snl")]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, -95.9346, 0, -1.76844)
+
 [node name="CPUParticles3D" type="CPUParticles3D" parent="." node_paths=PackedStringArray("target")]
 transform = Transform3D(0.319247, 0, 0.0583869, 0, 0.491679, 0, -0.0420523, 0, 0.443253, -147.118, 76.8152, 7.48135)
 emitting = false
-amount = 3538
+amount = 1500
 lifetime = 1.01
 mesh = SubResource("CapsuleMesh_cwvx6")
 emission_shape = 3
 emission_box_extents = Vector3(150, 1, 150)
 particle_flag_align_y = true
-direction = Vector3(-1, -1.945, 0)
+direction = Vector3(-0.3, -1, 0)
 spread = 0.0
-gravity = Vector3(0, -132.3, 0)
-initial_velocity_max = 30.3
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 191.92
+initial_velocity_max = 868.69
 scale_amount_min = 30.31
 scale_amount_max = 60.61
 script = SubResource("GDScript_e1qam")
@@ -2552,13 +2560,14 @@ mesh = SubResource("QuadMesh_16knq")
 script = ExtResource("3_6wdsf")
 target = NodePath("../CameraHolder")
 
-[node name="Node3D" parent="." node_paths=PackedStringArray("camera_holder", "camera") instance=ExtResource("2_okecr")]
+[node name="Player" parent="." node_paths=PackedStringArray("camera_holder", "camera") instance=ExtResource("2_okecr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -98.6442, 4.77546, -10.1379)
 camera_holder = NodePath("../CameraHolder")
 camera = NodePath("../CameraHolder/Camera3D")
 
 [node name="spawnisland" type="Node3D" parent="."]
 transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, -86.3923, 0, 0)
+visible = false
 
 [node name="Plane_021" type="MeshInstance3D" parent="spawnisland"]
 transform = Transform3D(3.27629, 0, 0, 0, 3.27629, 0, 0, 0, 3.27629, 0.22737, -0.1572, -0.0830223)
@@ -3005,7 +3014,7 @@ ZOOM_SCALE = 300.0
 transform = Transform3D(-0.97558, 0, -0.219642, 0, 1, 0, 0.219642, 0, -0.97558, -146.505, 1.2612, 8.04907)
 
 [node name="CameraHolder" parent="." node_paths=PackedStringArray("target") instance=ExtResource("2_8scfn")]
-target = NodePath("../Node3D")
+target = NodePath("../Player")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.881531, -0.216512, 0.419553, 0.208116, 0.619451, 0.756947, -0.42378, 0.754589, -0.501005, 0, 16.2842, 0)
@@ -3018,6 +3027,15 @@ environment = SubResource("Environment_g4td2")
 
 [node name="WetherTimer" type="Timer" parent="."]
 wait_time = 60.0
+
+[node name="Dialog" type="Node" parent="."]
+
+[node name="CompassNPC" parent="." instance=ExtResource("10_by651")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -115.862, 3.68108, -20.0797)
+speaker_name = "compass"
+convo_name = "compass-1"
+noti_name = "talk"
+one_shot = true
 
 [connection signal="timeout" from="WetherTimer" to="." method="_on_wether_timer_timeout"]
 

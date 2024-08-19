@@ -1,0 +1,229 @@
+[gd_scene load_steps=11 format=3 uid="uid://bixi67x2r0wwx"]
+
+[ext_resource type="Shader" path="res://Dialog/WobbleImage.gdshader" id="2_cc52c"]
+[ext_resource type="Script" path="res://Dialog/BBCodePop.gd" id="3_7i6ov"]
+[ext_resource type="FontFile" uid="uid://bcb476cgdndqb" path="res://Assets/Pangolin-Regular.ttf" id="3_u1u5e"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2brb3"]
+shader = ExtResource("2_cc52c")
+shader_parameter/time_factor = 3.0
+shader_parameter/amplitude = Vector2(2, 2)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d4upn"]
+shader = ExtResource("2_cc52c")
+shader_parameter/time_factor = 3.0
+shader_parameter/amplitude = Vector2(2, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2xqd6"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+corner_detail = 2
+expand_margin_left = 35.0
+expand_margin_top = 25.0
+expand_margin_right = 35.0
+expand_margin_bottom = 25.0
+anti_aliasing = false
+
+[sub_resource type="RichTextEffect" id="RichTextEffect_unv23"]
+script = ExtResource("3_7i6ov")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fp4fx"]
+shader = ExtResource("2_cc52c")
+shader_parameter/time_factor = 8.0
+shader_parameter/amplitude = Vector2(2, 2)
+
+[sub_resource type="Animation" id="Animation_xygio"]
+resource_name = "PopUpArrows"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ChoiceLeftArrow:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(1.1, 1.1), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ChoiceRightArrow:scale")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(1.1, 1.1), Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ChoiceLeftArrow:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ChoiceRightArrow:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jmw1x"]
+_data = {
+"PopUpArrows": SubResource("Animation_xygio")
+}
+
+[node name="DialogBubble" type="Node2D"]
+z_index = 11
+position = Vector2(480, 270)
+
+[node name="InteractZ" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_2brb3")
+position = Vector2(34, -74)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(60, 60)
+offset_left = -129.0
+offset_top = -130.0
+offset_right = -69.0
+offset_bottom = -70.0
+stretch_mode = 5
+
+[node name="Text" type="Label" parent="."]
+visible = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -2.0
+offset_top = -174.0
+offset_right = 401.0
+offset_bottom = -76.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.886275, 0.831373, 0.733333, 1)
+theme_override_fonts/font = ExtResource("3_u1u5e")
+theme_override_font_sizes/font_size = 36
+text = "WELCOME TO THE ABSTRACTION JULES"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+visible_characters_behavior = 1
+
+[node name="Panel" type="Panel" parent="Text"]
+z_index = -1
+material = SubResource("ShaderMaterial_d4upn")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_2xqd6")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+clip_contents = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = -52.0
+offset_right = 138.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/default_color = Color(0.886275, 0.831373, 0.733333, 1)
+theme_override_fonts/normal_font = ExtResource("3_u1u5e")
+theme_override_font_sizes/bold_italics_font_size = 36
+theme_override_font_sizes/italics_font_size = 36
+theme_override_font_sizes/mono_font_size = 36
+theme_override_font_sizes/normal_font_size = 36
+theme_override_font_sizes/bold_font_size = 36
+bbcode_enabled = true
+text = "[pop]bob![/pop]"
+fit_content = true
+scroll_active = false
+custom_effects = [SubResource("RichTextEffect_unv23")]
+visible_characters_behavior = 1
+metadata/_edit_group_ = true
+
+[node name="Panel" type="Panel" parent="RichTextLabel"]
+z_index = -1
+material = SubResource("ShaderMaterial_d4upn")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_2xqd6")
+
+[node name="Choices" type="HBoxContainer" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = 3.0
+offset_right = 40.0
+offset_bottom = 42.0
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Choices"]
+layout_mode = 2
+stretch_mode = 5
+
+[node name="TextureRect2" type="TextureRect" parent="Choices"]
+layout_mode = 2
+stretch_mode = 5
+
+[node name="TextureRect3" type="TextureRect" parent="Choices"]
+layout_mode = 2
+stretch_mode = 5
+
+[node name="TextureRect4" type="TextureRect" parent="Choices"]
+layout_mode = 2
+stretch_mode = 5
+
+[node name="DownArrow" type="Sprite2D" parent="."]
+texture_filter = 1
+texture_repeat = 1
+material = SubResource("ShaderMaterial_fp4fx")
+position = Vector2(-1, 49)
+scale = Vector2(0.8, 0.791667)
+
+[node name="ChoiceLeftArrow" type="Sprite2D" parent="."]
+scale = Vector2(1e-05, 1e-05)
+
+[node name="ChoiceRightArrow" type="Sprite2D" parent="."]
+scale = Vector2(1e-05, 1e-05)
+flip_h = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_jmw1x")
+}

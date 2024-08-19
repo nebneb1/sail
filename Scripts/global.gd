@@ -38,6 +38,9 @@ const WIND_SWITCH_RANGE = [3600.0, 10800.0]
 const WIND_SWITCH_RATE = [300.0, 600.0]
 const WINDOW_SPEED = 50.0
 
+var scene_controller = null
+var dialog = null
+var export = false
 func convert_vec(vec : Vector2):
 	return Vector3(vec.x, ground_level, vec.y)
 

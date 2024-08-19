@@ -1,0 +1,73 @@
+[gd_scene load_steps=10 format=3 uid="uid://5hnm61m8niaq"]
+
+[ext_resource type="Script" path="res://Dialog/ScreenShaders.gd" id="1_otkss"]
+[ext_resource type="Shader" path="res://Dialog/EpisodeTemplate.gdshader" id="2_r7bej"]
+
+[sub_resource type="Shader" id="Shader_j7a7o"]
+code = "shader_type canvas_item;
+
+uniform sampler2D noise;
+uniform float speed = 0.1;
+uniform float scale = 0.5;
+uniform sampler2D screen_texture : hint_screen_texture, filter_nearest;
+
+uniform float BIAS = 1.0;
+
+void fragment() {
+	vec2 uv_offset = (
+		texture(noise, (SCREEN_UV + vec2(step(cos(TIME * speed) + 1.0, 1.0), 0.0)), BIAS).rb - 
+		texture(noise, (SCREEN_UV + vec2(0.0, step(cos(TIME * speed) + 1.0, 1.0))), BIAS).rb
+	);
+	COLOR = texture(screen_texture, SCREEN_UV + uv_offset * scale);
+}"
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_dhkv7"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ncwlf"]
+width = 1920
+height = 1080
+noise = SubResource("FastNoiseLite_dhkv7")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_01mjg"]
+shader = SubResource("Shader_j7a7o")
+shader_parameter/speed = 10.0
+shader_parameter/scale = 0.001
+shader_parameter/BIAS = 1.0
+shader_parameter/noise = SubResource("NoiseTexture2D_ncwlf")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_0pdta"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_jsl07"]
+width = 1920
+height = 1080
+seamless = true
+seamless_blend_skirt = 1.0
+noise = SubResource("FastNoiseLite_0pdta")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qjxod"]
+shader = ExtResource("2_r7bej")
+shader_parameter/speed = 10.0
+shader_parameter/scale = 0.01
+shader_parameter/BIAS = 1.0
+shader_parameter/noise = SubResource("NoiseTexture2D_jsl07")
+
+[node name="ScreenShaders" type="CanvasLayer"]
+layer = 10
+script = ExtResource("1_otkss")
+
+[node name="ColorRect3" type="ColorRect" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_01mjg")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect4" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_qjxod")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

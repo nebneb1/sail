@@ -1,0 +1,58 @@
+[gd_scene load_steps=8 format=3 uid="uid://dwrvnlqmngb64"]
+
+[ext_resource type="Script" path="res://Episodes/Level.gd" id="1_v8v10"]
+[ext_resource type="PackedScene" uid="uid://oi3hxh631m46" path="res://Entity/Player/Player.tscn" id="2_d3wte"]
+[ext_resource type="Script" path="res://Episodes/Room.gd" id="4_1uh8n"]
+[ext_resource type="Script" path="res://Episodes/Unloyal.gd" id="6_26v8w"]
+[ext_resource type="Script" path="res://Episodes/LerpCamera.gd" id="6_al5r8"]
+
+[sub_resource type="Environment" id="Environment_ibnut"]
+background_mode = 1
+background_color = Color(0.886275, 0.831373, 0.733333, 1)
+glow_blend_mode = 0
+adjustment_enabled = true
+adjustment_saturation = 1.1
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_ks0jl"]
+
+[node name="EpisodeTemplate" type="Node3D"]
+script = ExtResource("1_v8v10")
+
+[node name="Player" parent="." instance=ExtResource("2_d3wte")]
+camera_path = NodePath("../Start/Camera3D")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ibnut")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.707107, 0.612372, 0.353553, -7.19671e-09, 0.5, -0.866025, -0.707107, 0.612372, 0.353554, 0, 13, 0)
+visible = false
+shadow_enabled = true
+
+[node name="Ground" type="StaticBody3D" parent="."]
+collision_mask = 6
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("WorldBoundaryShape3D_ks0jl")
+
+[node name="Start" type="Node3D" parent="."]
+script = ExtResource("4_1uh8n")
+
+[node name="Camera3D" type="Camera3D" parent="Start"]
+transform = Transform3D(0.707107, 0.340651, -0.619642, 0, 0.876307, 0.481754, 0.707107, -0.340651, 0.619642, -24, 32, 31)
+projection = 1
+current = true
+fov = 43.4
+size = 50.0
+
+[node name="Area3D" type="Area3D" parent="Start"]
+
+[node name="Unloyal" type="Node3D" parent="."]
+script = ExtResource("6_26v8w")
+
+[node name="Doors" type="Node3D" parent="."]
+
+[node name="LerpCamera" type="Camera3D" parent="."]
+projection = 1
+current = true
+script = ExtResource("6_al5r8")

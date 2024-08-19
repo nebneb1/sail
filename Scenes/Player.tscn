@@ -5,8 +5,9 @@
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_eb00k"]
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_2woeq"]
-height = 3.23511
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_weksv"]
+radius = 0.404779
+height = 3.21363
 
 [node name="Player" type="RigidBody3D"]
 axis_lock_angular_x = true
@@ -22,7 +23,7 @@ script = ExtResource("1_fyiic")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6138, 0)
-shape = SubResource("CylinderShape3D_2woeq")
+shape = SubResource("CapsuleShape3D_weksv")
 
 [node name="playertest" parent="." instance=ExtResource("2_tswuv")]
 transform = Transform3D(19.2772, 0, -5.32828, 0, 20, 0, 5.32828, 0, 19.2772, 0, -1.90759, 0)

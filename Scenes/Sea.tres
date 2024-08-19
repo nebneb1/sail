@@ -4,7 +4,7 @@
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_plx5m"]
 noise_type = 2
-frequency = 0.0198
+frequency = 0.0127
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_e0o86"]
 seamless = true
@@ -15,13 +15,15 @@ render_priority = 0
 shader = ExtResource("1_ir65n")
 shader_parameter/foam_color = Color(0.902871, 0.970867, 0.94359, 1)
 shader_parameter/main_color = Color(0.368627, 0.556863, 0.603922, 1)
-shader_parameter/edge_grain = 29.888
+shader_parameter/edge_threshold = -0.015
+shader_parameter/edge_grain = 15.506
+shader_parameter/displacement_amount = -0.015
 shader_parameter/wave_height = 0.01
 shader_parameter/wave_length = 2.0
 shader_parameter/time_factor = 0.06
 shader_parameter/foam_speed = 0.003
 shader_parameter/foam_amount = 0.125
-shader_parameter/foam_size = 138.079
+shader_parameter/foam_size = 52.686
+shader_parameter/foam_dir = Vector2(1, 1)
 shader_parameter/time = 5.25
-shader_parameter/depth_scale = 4.0
 shader_parameter/displacement_guide = SubResource("NoiseTexture2D_e0o86")
