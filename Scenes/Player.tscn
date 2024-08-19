@@ -9,13 +9,27 @@
 height = 3.23511
 
 [node name="Player" type="RigidBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0865952, 0, 1.60308)
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
 physics_material_override = SubResource("PhysicsMaterial_eb00k")
+gravity_scale = 3.0
+can_sleep = false
+continuous_cd = true
+contact_monitor = true
+max_contacts_reported = 3
 script = ExtResource("1_fyiic")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.14606, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6138, 0)
 shape = SubResource("CylinderShape3D_2woeq")
 
 [node name="playertest" parent="." instance=ExtResource("2_tswuv")]
-transform = Transform3D(19.2772, 0, -5.32828, 0, 20, 0, 5.32828, 0, 19.2772, 0, -0.907595, 0)
+transform = Transform3D(19.2772, 0, -5.32828, 0, 20, 0, 5.32828, 0, 19.2772, 0, -1.90759, 0)
+
+[node name="JumpCast" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.324359, 0)
+hit_from_inside = true
+
+[node name="JumpTimer" type="Timer" parent="."]
+one_shot = true

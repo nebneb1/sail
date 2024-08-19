@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://066v4xi0gjgg"]
+[gd_scene load_steps=14 format=4 uid="uid://066v4xi0gjgg"]
 
 [ext_resource type="Script" path="res://Scripts/boat_controller.gd" id="1_4oqbt"]
 [ext_resource type="PackedScene" uid="uid://d0okpnwtmmrir" path="res://Assets/shiptest.glb" id="2_nxwff"]
@@ -87,6 +87,9 @@ albedo_color = Color(0, 0.756863, 0.45098, 0.658824)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s724b"]
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_gkh2n"]
+radius = 13.0
+
 [node name="Boat" type="AnimatableBody3D" node_paths=PackedStringArray("main_sheet_ghost", "main_sheet", "jib", "telltale", "tiller")]
 transform = Transform3D(0.998544, 0, 0.0539394, 0, 1, 0, -0.0539394, 0, 0.998544, 0, 0, 0)
 physics_material_override = SubResource("PhysicsMaterial_pinpb")
@@ -100,8 +103,10 @@ telltale = NodePath("Mast/Telltale")
 tiller = NodePath("Tiller")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 0.33348, 1.00335, 0.0286511)
+transform = Transform3D(19.9765, -4.22838e-08, -0.970022, 4.23948e-08, 20, 1.25971e-09, 0.970022, -3.31446e-09, 19.9765, 0.0106293, 2.00719, 0.0427815)
+visible = false
 shape = SubResource("ConcavePolygonShape3D_w07va")
+disabled = true
 
 [node name="shipcol" type="Node3D" parent="."]
 transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 0, 0, 0)
@@ -118,7 +123,7 @@ mesh = SubResource("ArrayMesh_ql54a")
 skeleton = NodePath("")
 
 [node name="shiptest" parent="." instance=ExtResource("2_nxwff")]
-transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, -2.17241, -1.02308, -0.11735)
+transform = Transform3D(19.9765, -4.22838e-08, -0.970022, 4.23948e-08, 20, 1.25971e-09, 0.970022, -3.31446e-09, 19.9765, -1.76311, -1.84225e-09, 0.438054)
 
 [node name="Mast" type="Node3D" parent="."]
 
@@ -165,3 +170,7 @@ size = Vector3(0.782654, 2.52828, 0.103271)
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 size = Vector3(14, 1.67571, 4.81592)
 material = SubResource("StandardMaterial3D_s724b")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CylinderShape3D_gkh2n")
