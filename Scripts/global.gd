@@ -7,6 +7,8 @@ var game_started = true
 @onready var player : RigidBody3D
 @onready var boat : Node3D
 
+
+var help_mode = true
 var scale_map = false
 
 var wind_thresholds : Array = [ # in radians

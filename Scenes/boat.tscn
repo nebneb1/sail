@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://066v4xi0gjgg"]
+[gd_scene load_steps=13 format=4 uid="uid://066v4xi0gjgg"]
 
 [ext_resource type="Script" path="res://Scripts/boat_controller.gd" id="1_4oqbt"]
 [ext_resource type="PackedScene" uid="uid://d0okpnwtmmrir" path="res://Assets/shiptest.glb" id="2_nxwff"]
@@ -81,14 +81,19 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_7wi1k")
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mdy02"]
+transparency = 1
+albedo_color = Color(0, 0.756863, 0.45098, 0.658824)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s724b"]
 
-[node name="Boat" type="AnimatableBody3D" node_paths=PackedStringArray("main_sheet", "jib", "telltale", "tiller")]
+[node name="Boat" type="AnimatableBody3D" node_paths=PackedStringArray("main_sheet_ghost", "main_sheet", "jib", "telltale", "tiller")]
 transform = Transform3D(0.998544, 0, 0.0539394, 0, 1, 0, -0.0539394, 0, 0.998544, 0, 0, 0)
 physics_material_override = SubResource("PhysicsMaterial_pinpb")
 sync_to_physics = false
 script = ExtResource("1_4oqbt")
 main_sheet_accel = -10.0
+main_sheet_ghost = NodePath("Mast/MainSheetGhost")
 main_sheet = NodePath("Mast/MainSheet")
 jib = NodePath("Mast/Jib")
 telltale = NodePath("Mast/Telltale")
@@ -130,6 +135,14 @@ transform = Transform3D(0.695687, 0, 0.718345, 0, 1, 0, -0.718345, 0, 0.695687, 
 [node name="CSGBox3D" type="CSGBox3D" parent="Mast/MainSheet"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.36108, 3.35666, 0)
 size = Vector3(6.56076, 6.90039, 0.0476074)
+
+[node name="MainSheetGhost" type="Node3D" parent="Mast"]
+transform = Transform3D(0.739302, 0, -0.673374, 0, 1, 0, 0.673374, 0, 0.739302, -2.76494, 2.45749, -1.49012e-08)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Mast/MainSheetGhost"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.36108, 3.35666, 0)
+size = Vector3(6.56076, 6.90039, 0.0476074)
+material = SubResource("StandardMaterial3D_mdy02")
 
 [node name="Jib" type="Node3D" parent="Mast"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.0794, 1.82262, -0.151952)

@@ -57,6 +57,7 @@ script = ExtResource("3_nhtqa")
 [node name="islandtest4" parent="." instance=ExtResource("1_3i6a3")]
 transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, -2999.78, -3.8147e-06, 1406.86)
 script = ExtResource("3_nhtqa")
+ZOOM_SCALE = 300.0
 
 [node name="Boat" parent="." instance=ExtResource("1_d2bg4")]
 transform = Transform3D(0.0131594, 0, 0.999913, 0, 1, 0, -0.999913, 0, 0.0131594, 0, 1.2612, 0)

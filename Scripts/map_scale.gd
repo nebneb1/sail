@@ -1,6 +1,6 @@
 extends Node3D
 
-const ZOOM_SCALE = 100.0
+@export var ZOOM_SCALE = 100.0
 const SCALE_SPEED = 1.0
 const SAFETY_ZONE = 1000.0
 var scale_target = Vector3.ONE
@@ -19,7 +19,6 @@ func _process(delta: float):
 		scale_target = og_scale
 	
 	scale += (scale_target - scale) * SCALE_SPEED * delta
-	print(scale)
 	
 	
 	

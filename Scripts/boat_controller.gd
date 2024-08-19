@@ -7,7 +7,6 @@ const SPEED_FALLOFF_POWER = 1.0
 const IRONS_SPEED_DECRESE_RATE = 0.1
 const accel = 0.3 # how fast speed goes to target speed m/s/s
 var potential_speed = 0.0 # maximum possible speed at ur heading
-#var drawback_multiplier = 0.9 # affected by how off the positioning of everything is, takes away from potential_speed
 var target_speed = 0.0 # your speed based on where u have everything positioned, speed naturally approaches this number
 var speed := 0.0
 
@@ -53,11 +52,17 @@ var prev_on_port := false
 
 @export var disable_controls := false
 
+@export var main_sheet_ghost : Node3D # Ghost for where the optimal main sheet is
 @export var main_sheet : Node3D # the larger sail twards the back
 @export var jib : Node3D # the smaller sail thats closer to the front
 @export var telltale : Node3D # this is the thing on top that tells the wind direction
 @export var tiller : Node3D # this is the rudder at the back that steers
-var optimal_angle = 0.0 #remove an init in func after debug
+var optimal_angle = 0.0
+const GHOST_THRESHOLD = 10.0
+const GHOST_TIME = 3.0
+const GHOST_ACCEL = 1.0
+var ghost_timer = 0.0
+
 
 func _ready():
 	Global.boat = self
@@ -202,12 +207,23 @@ func _process(delta: float):
 		
 	elif Input.is_action_pressed("tiller_right") and not disable_controls:
 		tiller_target = clamp(tiller_target - delta * tiller_speed, TILLER_LIMITS[0], TILLER_LIMITS[1])
-		
+	
 	elif abs(tiller_target) < 1.0:
 		tiller_target = 0
 	
 	else:
 		tiller_target -= tiller_target * delta * speed
+	
+	if Global.help_mode and abs(main_sheet_angle - optimal_angle) > GHOST_THRESHOLD:
+		main_sheet_ghost.show()
+		main_sheet_ghost.rotation_degrees.y += (optimal_angle - main_sheet_ghost.rotation_degrees.y) * GHOST_ACCEL * delta
+		ghost_timer += delta
+		if ghost_timer >= GHOST_TIME:
+			ghost_timer = 0
+			main_sheet_ghost.rotation_degrees.y = main_sheet_angle
+	
+	else:
+		main_sheet_ghost.hide()
 		
 	tiller_angle += (tiller_target - tiller_angle) * tiller_accel * delta
 		
@@ -230,6 +246,7 @@ func _process(delta: float):
 	target_tilt = sin(time) * ROCK_AMMOUNT + speed * -(int(on_port)*2-1) * SPEED_TILT_AMMOUNT
 	tilt += (target_tilt - tilt) * TILT_ACCEL * delta
 	rotation_degrees.x = tilt
+	
 	
 	
 	if prev_on_port != on_port:

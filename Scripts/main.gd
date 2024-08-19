@@ -13,7 +13,28 @@ const MAX_FOG_DENSITY = 0.007
 const WEATHER_CHANGE_DURR = 120.0
 var fog_ammount = 0.0
 
+var prev_scale_map = Global.scale_map
+func _process(delta: float):
+	if prev_scale_map != Global.scale_map:
+		if Global.scale_map:
+			disable_weather(1.0)
+		else:
+			enable_weather(1.0)
+	
+	prev_scale_map = Global.scale_map
+	
 
+func disable_weather(speed : float):
+	match curr_weather:
+		Weather.FOGGY:
+			var tween := create_tween()
+			tween.tween_property(world_env, "environment:fog_density", 0.0, speed)
+
+func enable_weather(speed : float):
+	match curr_weather:
+		Weather.FOGGY:
+			var tween := create_tween()
+			tween.tween_property(world_env, "environment:fog_density", MAX_FOG_DENSITY, speed)
 
 func _ready():
 	randomize()
@@ -24,10 +45,7 @@ func _on_wether_timer_timeout() -> void:
 	$WetherTimer.start()
 	if randi_range(1, WETHER_CHANGE_PROBABILITY) == 1:
 	#if true:
-		match curr_weather:
-			Weather.FOGGY:
-				var tween := create_tween()
-				tween.tween_property(world_env, "environment:fog_density", 0.0, WEATHER_CHANGE_DURR)
+		disable_weather(WEATHER_CHANGE_DURR)
 		
 		while true:
 			var random_weather = Weather.values()[randi()%Weather.size()]
@@ -35,8 +53,5 @@ func _on_wether_timer_timeout() -> void:
 				curr_weather = random_weather
 				break
 		
-		match curr_weather:
-			Weather.FOGGY:
-				var tween := create_tween()
-				tween.tween_property(world_env, "environment:fog_density", MAX_FOG_DENSITY, WEATHER_CHANGE_DURR)
+		enable_weather(WEATHER_CHANGE_DURR)
 	
