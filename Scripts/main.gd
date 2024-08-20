@@ -82,6 +82,10 @@ func _ready():
 	#enable_weather(WEATHER_CHANGE_DURR)
 
 	speakers["c"] = $CompassNPC.dialog_entity
+	speakers["f"] = $FaradayNPC.dialog_entity
+	speakers["w"] = $WidowNPC.dialog_entity
+	speakers["m"] = $GoliathNPC.dialog_entity
+	speakers["g"] = $GrandpaNPC.dialog_entity
 	#$CompassNPC.base_convos = [['compass-1', 'compass-2']]
 	init_dialog("res://Dialog/script.txt", Global.export)
 
@@ -196,6 +200,7 @@ func init_dialog(dialog_path : String, is_export : bool):
 		f.close()
 	else:
 		parse_glob(dialog_path)
+		print(convos)
 	
 func assign_speaker(_name : String, _object):
 	speakers[name] = _object.dialog_entity

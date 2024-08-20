@@ -4,7 +4,6 @@ render_mode unshaded;
 uniform vec4 foam_color : source_color;
 uniform vec4 main_color : source_color;
 uniform float edge_threshold = 1.0;
-uniform float edge_grain : hint_range(0, 80) = 20.0;
 uniform sampler2D displacement_guide : source_color;
 uniform float displacement_amount = 1.0;
 const float near = 0.15;

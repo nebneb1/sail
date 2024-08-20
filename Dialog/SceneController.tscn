@@ -16,6 +16,7 @@ noise = SubResource("FastNoiseLite_5i247")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_g537t"]
 shader = ExtResource("2_0rxgv")
+shader_parameter/color = Color(0.407843, 0.576471, 0.611765, 1)
 shader_parameter/circle_size = -0.2
 shader_parameter/screen_width = 1920.0
 shader_parameter/screen_height = 1080.0

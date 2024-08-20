@@ -1,4 +1,4 @@
-[gd_scene load_steps=187 format=4 uid="uid://bcmg5n5kyhr1p"]
+[gd_scene load_steps=190 format=4 uid="uid://bcmg5n5kyhr1p"]
 
 [ext_resource type="PackedScene" uid="uid://cywjt1arwsfc6" path="res://Assets/islandtest.glb" id="1_3i6a3"]
 [ext_resource type="PackedScene" uid="uid://066v4xi0gjgg" path="res://Scenes/boat.tscn" id="1_d2bg4"]
@@ -11,6 +11,9 @@
 [ext_resource type="Script" path="res://Scripts/map_scale.gd" id="3_nhtqa"]
 [ext_resource type="PackedScene" uid="uid://drbqcv7ncy4ux" path="res://Dialog/NPCs/StaticNPC.tscn" id="10_by651"]
 [ext_resource type="Texture2D" uid="uid://b848dc3sy5iqh" path="res://Assets/save-512.png" id="11_ml4aw"]
+[ext_resource type="PackedScene" uid="uid://d2y20663hc3g6" path="res://Assets/widow.glb" id="11_upbgo"]
+[ext_resource type="PackedScene" uid="uid://bbwjv4l6nxs5" path="res://Assets/goliath.glb" id="12_ucdhv"]
+[ext_resource type="PackedScene" uid="uid://braahf3bnq8mm" path="res://Assets/grandpa.glb" id="13_yq1ps"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8n6pr"]
 shading_mode = 0
@@ -3042,23 +3045,27 @@ shape = SubResource("ConcavePolygonShape3D_yfofb")
 
 [node name="islandtest" parent="." instance=ExtResource("1_3i6a3")]
 transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 51.5976, -3.8147e-06, 0)
+visible = false
 script = ExtResource("3_nhtqa")
 
 [node name="islandtest2" parent="." instance=ExtResource("1_3i6a3")]
 transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 361.692, -3.8147e-06, -1236.59)
+visible = false
 script = ExtResource("3_nhtqa")
 
 [node name="islandtest3" parent="." instance=ExtResource("1_3i6a3")]
 transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, -1569.66, -3.8147e-06, -1511.41)
+visible = false
 script = ExtResource("3_nhtqa")
 
 [node name="islandtest4" parent="." instance=ExtResource("1_3i6a3")]
 transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, -2999.78, -3.8147e-06, 1406.86)
+visible = false
 script = ExtResource("3_nhtqa")
 ZOOM_SCALE = 300.0
 
 [node name="Boat" parent="." instance=ExtResource("1_d2bg4")]
-transform = Transform3D(-0.97558, 0, -0.219642, 0, 1, 0, 0.219642, 0, -0.97558, -146.505, 1.2612, 8.04907)
+transform = Transform3D(-0.498412, -4.1755e-08, 0.86694, -4.7496e-08, 1, 2.08577e-08, -0.86694, -3.07805e-08, -0.498412, -150.525, 1.2612, 8.16862)
 
 [node name="CameraHolder" parent="." node_paths=PackedStringArray("target") instance=ExtResource("2_8scfn")]
 target = NodePath("../Player")
@@ -3083,6 +3090,43 @@ speaker_name = "compass"
 convo_name = "compass-1"
 noti_name = "talk"
 one_shot = true
+
+[node name="FaradayNPC" parent="." instance=ExtResource("10_by651")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -138.982, 3.68108, 1.01093)
+speaker_name = "faraday"
+convo_name = "faraday-1"
+noti_name = "talk"
+one_shot = true
+
+[node name="WidowNPC" parent="." instance=ExtResource("10_by651")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -103.388, 3.68108, -26.9199)
+speaker_name = "widow"
+convo_name = "widow-1"
+noti_name = "talk"
+one_shot = true
+
+[node name="widow" parent="WidowNPC" instance=ExtResource("11_upbgo")]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 0, -4.57242, 0)
+
+[node name="GoliathNPC" parent="." instance=ExtResource("10_by651")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -98.3467, 3.68108, -29.3311)
+speaker_name = "goliath"
+convo_name = "goliath-1"
+noti_name = "talk"
+one_shot = true
+
+[node name="goliath" parent="GoliathNPC" instance=ExtResource("12_ucdhv")]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 0, -4.34157, 0)
+
+[node name="GrandpaNPC" parent="." instance=ExtResource("10_by651")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -92.6212, 3.68108, -29.3311)
+speaker_name = "grandpa"
+convo_name = "grandpa-1"
+noti_name = "talk"
+one_shot = true
+
+[node name="grandpa" parent="GrandpaNPC" instance=ExtResource("13_yq1ps")]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 0, -12.563, 0)
 
 [node name="Save" type="Sprite2D" parent="."]
 position = Vector2(26, 31)

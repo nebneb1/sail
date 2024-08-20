@@ -1,6 +1,7 @@
 shader_type canvas_item;
 render_mode unshaded;
- 
+
+uniform vec4 color : source_color;
 uniform float circle_size : hint_range(-0.2, 1.2);
 uniform float screen_width;
 uniform float screen_height;
@@ -22,13 +23,13 @@ void fragment() {
 		texture(noise, (SCREEN_UV + vec2(1.0, 0.0)), BIAS).rb - 
 		texture(noise, (SCREEN_UV + vec2(0.0, 1.0)), BIAS).rb
 	);
-	COLOR = vec4(0.0);
+	COLOR = color;
 	//texture(noise, UV);
 	float ratio = screen_width / screen_height;
 	float dist = distance(vec2(0.5, 0.5), vec2(mix(0.5, UV.x, ratio), UV.y));
 	COLOR.a = step(circle_size, dist);
 	vec4 texture_color = texture(noise, UV);
-	float luminosity = getLuminance(texture(noise, UV) * vec4(1.0 - smoothstep(circle_size, circle_size + 0.2, dist)));
+	float luminosity = getLuminance(vec4(1.0 - smoothstep(circle_size, circle_size + 0.2, dist)));
 	if (luminosity > 150.0) {
 		COLOR.a = 0.0;
 	}

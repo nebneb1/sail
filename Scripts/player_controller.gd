@@ -109,9 +109,10 @@ func _physics_process(delta: float):
 			"anchor":
 				if Input.is_action_pressed("down"):
 					boat.anchor_down = true
+					boat.change_anchor_visuals()
 				if Input.is_action_pressed("up"):
 					boat.anchor_down = false
-					
+					boat.change_anchor_visuals()
 
 
 func _input(event: InputEvent):
@@ -142,10 +143,7 @@ func _input(event: InputEvent):
 		var npc = null
 		var static_npc = null
 		for body in npcs_in_range:
-			if body.is_in_group('npc'):
-				if body.is_convo_avail():
-					npc = body
-			elif body.is_in_group("static_npc"):
+			if body.is_in_group("static_npc"):
 				if body.cur_pot_convo != '':
 					static_npc = body
 		

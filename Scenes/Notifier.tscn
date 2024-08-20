@@ -1,8 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://bqxadnnukgmy1"]
+[gd_scene load_steps=13 format=3 uid="uid://bqxadnnukgmy1"]
 
 [ext_resource type="Script" path="res://Scenes/Notifier.gd" id="1_o7cpd"]
 [ext_resource type="Texture2D" uid="uid://dm8bhu77873d2" path="res://Assets/Dots2.png" id="2_ila4t"]
+[ext_resource type="Texture2D" uid="uid://dghgvguhyloid" path="res://Assets/TillerAlt2.png" id="2_tme17"]
 [ext_resource type="Texture2D" uid="uid://c6uwswi3um3ur" path="res://Assets/Dots.png" id="3_a7woa"]
+[ext_resource type="Texture2D" uid="uid://cynl0l37q18gr" path="res://Assets/TillerAlt.png" id="3_ebg14"]
 [ext_resource type="Texture2D" uid="uid://co5rp4gc76pmj" path="res://Assets/Tiller2.png" id="4_sptgx"]
 [ext_resource type="Texture2D" uid="uid://bmtcxmt86yoph" path="res://Assets/Tiller.png" id="5_tw7ft"]
 
@@ -66,10 +68,10 @@ _data = {
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("4_sptgx")
+"texture": ExtResource("2_tme17")
 }, {
 "duration": 1.0,
-"texture": ExtResource("5_tw7ft")
+"texture": ExtResource("3_ebg14")
 }],
 "loop": true,
 "name": &"anchor",
@@ -77,10 +79,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("4_sptgx")
+"texture": ExtResource("2_tme17")
 }, {
 "duration": 1.0,
-"texture": ExtResource("5_tw7ft")
+"texture": ExtResource("3_ebg14")
 }],
 "loop": true,
 "name": &"jib_port",
@@ -88,10 +90,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("4_sptgx")
+"texture": ExtResource("2_tme17")
 }, {
 "duration": 1.0,
-"texture": ExtResource("5_tw7ft")
+"texture": ExtResource("3_ebg14")
 }],
 "loop": true,
 "name": &"jib_starboard",
@@ -99,10 +101,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("4_sptgx")
+"texture": ExtResource("2_tme17")
 }, {
 "duration": 1.0,
-"texture": ExtResource("5_tw7ft")
+"texture": ExtResource("3_ebg14")
 }],
 "loop": true,
 "name": &"main_sheet",
@@ -160,6 +162,6 @@ fixed_size = true
 texture_filter = 0
 render_priority = 10
 sprite_frames = SubResource("SpriteFrames_fqnwu")
-animation = &"tiller"
+animation = &"talk"
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

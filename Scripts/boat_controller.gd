@@ -89,7 +89,20 @@ var tiller_left : bool = false
 var tiller_right : bool = false
 @export var anchor_down : bool = true
 
+var target_island : Vector3 = Vector3()
+var distance_from_target_island : int = 0
+# need to add system to know which is which target island
+
 func _physics_process(delta: float):
+	#COMPASS STUFF
+	$compassrotating.rotation.x = 0.0
+	$compassrotating.rotation.z = 0.0
+	# THIS LINE BELOW DOESNT WORK FOR SOME REASON
+	$compassrotating.rotation.y = atan2(-global_position.z + target_island.z, -global_position.x + target_island.x)
+	#$compassrotating.rotation.y += delta
+	distance_from_target_island = ((target_island - global_position) * Vector3(1, 0, 1)).length()
+	$DistLabel.text = str(distance_from_target_island) + "m"
+	
 	time += delta
 	disable_controls = false
 	if on_port:
@@ -327,12 +340,20 @@ func _on_island_collider_area_entered(area: Area3D) -> void:
 	if area.is_in_group("hard_collider"):
 		speed = -speed * COLLISION_SPEED_LOSS
 		anchor_down = false
+		change_anchor_visuals()
 		rot_momentum = randf_range(COLLISION_ROT_MOME_RANGE, -COLLISION_ROT_MOME_RANGE)
 	elif area.is_in_group("soft_collider"):
 		anchor_down = true
+		change_anchor_visuals()
 		hit_sand = true
 
-
+func change_anchor_visuals():
+	if anchor_down:
+		$anchorbase/anchor.position = Vector3(-0.017, 0.002, 0.037)
+		$anchorbase/anchorrope.scale.y = 1
+	else:
+		$anchorbase/anchor.position = Vector3(-0.017, 0.086, 0.037)
+		$anchorbase/anchorrope.scale.y = 0
 func _on_island_collider_area_exited(area: Area3D) -> void:
 	if area.is_in_group("soft_collider"):
 		$sand_time.start()

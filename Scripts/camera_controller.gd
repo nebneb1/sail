@@ -41,7 +41,7 @@ func _process(delta: float):
 	rotation.y += velocity.x*delta*SENSITIVITY.x
 	if velocity.x > 0: velocity.x -= velocity.x*DRAG*delta
 	elif velocity.x < 0: velocity.x -= velocity.x*DRAG*delta
-	if target: global_position = target.global_position
+	if target: global_position = lerp(global_position, target.global_position, delta * 1.0)
 	
 	if abs(zoom_target - zoom) > 0.001:
 		zoom += (zoom_target - zoom) * ZOOM_SPEED * delta

@@ -169,6 +169,7 @@ shadow_mesh = SubResource("ArrayMesh_7wi1k")
 [sub_resource type="Environment" id="Environment_bvvie"]
 background_mode = 2
 sky = SubResource("Sky_r3kav")
+tonemap_mode = 2
 glow_intensity = 8.0
 fog_enabled = true
 fog_light_color = Color(0.435294, 0.619608, 0.666667, 1)
