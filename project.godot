@@ -14,9 +14,9 @@ config/name="Sail"
 run/main_scene="res://Dialog/SceneController.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 boot_splash/bg_color=Color(0.368627, 0.52549, 0.564706, 1)
-boot_splash/image="res://Assets/DioramaLogo2.png"
+boot_splash/image="res://Assets/Capture - Copy.PNG"
 boot_splash/fullsize=false
-config/icon="res://Assets/Group 2.png"
+config/icon="res://Assets/Capture.PNG"
 boot_splash/minimum_display_time=1025
 
 [autoload]

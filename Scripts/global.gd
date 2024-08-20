@@ -7,6 +7,10 @@ var game_started = false
 @onready var player : CharacterBody3D
 @onready var boat : Node3D
 
+var islands_visited = ["starter"]
+
+var saved = false
+
 var game : Node3D
 var help_mode = true
 var scale_map = false
@@ -53,7 +57,40 @@ func _ready() -> void:
 	randomize()
 	wind_switch = randf_range(WIND_SWITCH_RANGE[0], WIND_SWITCH_RANGE[1])
 	
+
+func save():
+	print("game saved")
+	game.get_node("Save/AnimationPlayer").play("save")
 	
+	
+	var file = FileAccess.open("user://save_game.dat", FileAccess.WRITE)
+	file.store_var([boat.global_position, boat.direction, wind_direction, islands_visited])
+	file.close()
+	
+
+func save_file_exists() -> bool:
+	return FileAccess.file_exists("user://save_game.dat")
+	
+
+func loadd():
+	var file = FileAccess.open("user://save_game.dat", FileAccess.READ)
+	var contents = file.get_var()
+	file.close()
+	
+	game.get_node("Save/AnimationPlayer").play("save")
+	print(contents)
+	
+	saved = true
+	boat.anchor_down = true
+	boat.global_position = contents[0]
+	boat.direction = contents[1]
+	wind_direction = contents[2]
+	islands_visited = contents[3]
+	
+	player.global_position = boat.get_node("PlayerSpawn").global_position
+	
+	
+
 func _process(delta: float):
 	update_thresholds()
 	#if Input.is_action_pressed("jib_port_in") and not mini_player:

@@ -7,6 +7,7 @@ var random_pool : Array = []
 
 
 func _ready():
+	Debug.track(self, "disabled")
 	randomize()
 	for child in get_children():
 		if child is AudioStreamPlayer:

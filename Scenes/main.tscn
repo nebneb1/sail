@@ -1,4 +1,4 @@
-[gd_scene load_steps=183 format=4 uid="uid://bcmg5n5kyhr1p"]
+[gd_scene load_steps=187 format=4 uid="uid://bcmg5n5kyhr1p"]
 
 [ext_resource type="PackedScene" uid="uid://cywjt1arwsfc6" path="res://Assets/islandtest.glb" id="1_3i6a3"]
 [ext_resource type="PackedScene" uid="uid://066v4xi0gjgg" path="res://Scenes/boat.tscn" id="1_d2bg4"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://Scripts/ocean.gd" id="3_6wdsf"]
 [ext_resource type="Script" path="res://Scripts/map_scale.gd" id="3_nhtqa"]
 [ext_resource type="PackedScene" uid="uid://drbqcv7ncy4ux" path="res://Dialog/NPCs/StaticNPC.tscn" id="10_by651"]
+[ext_resource type="Texture2D" uid="uid://b848dc3sy5iqh" path="res://Assets/save-512.png" id="11_ml4aw"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8n6pr"]
 shading_mode = 0
@@ -2528,8 +2529,54 @@ adjustment_brightness = 0.94
 adjustment_contrast = 1.07
 adjustment_saturation = 0.84
 
+[sub_resource type="Animation" id="Animation_4y6k0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_gcy0p"]
+resource_name = "save"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.533333, 1.03333, 1.53333, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1kmav"]
+_data = {
+"RESET": SubResource("Animation_4y6k0"),
+"save": SubResource("Animation_gcy0p")
+}
+
 [node name="Game" type="Node3D"]
 script = ExtResource("1_evc5h")
+
+[node name="ISLAND_POS" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1813.63, -6.10352e-05, 615.81)
+
+[node name="ISLAND_POS2" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20074.9, 0.000732422, 33947.6)
+
+[node name="ISLAND_POS4" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27673.8, 0.000244141, -217938)
 
 [node name="starterisland" parent="." instance=ExtResource("2_y5snl")]
 transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, -95.9346, 0, -1.76844)
@@ -2537,11 +2584,11 @@ transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, -95.9346, 0, -1.76844)
 [node name="CPUParticles3D" type="CPUParticles3D" parent="." node_paths=PackedStringArray("target")]
 transform = Transform3D(0.319247, 0, 0.0583869, 0, 0.491679, 0, -0.0420523, 0, 0.443253, -147.118, 76.8152, 7.48135)
 emitting = false
-amount = 1500
+amount = 2500
 lifetime = 1.01
 mesh = SubResource("CapsuleMesh_cwvx6")
 emission_shape = 3
-emission_box_extents = Vector3(150, 1, 150)
+emission_box_extents = Vector3(200, 1, 200)
 particle_flag_align_y = true
 direction = Vector3(-0.3, -1, 0)
 spread = 0.0
@@ -3036,6 +3083,16 @@ speaker_name = "compass"
 convo_name = "compass-1"
 noti_name = "talk"
 one_shot = true
+
+[node name="Save" type="Sprite2D" parent="."]
+position = Vector2(26, 31)
+scale = Vector2(0.109375, 0.109375)
+texture = ExtResource("11_ml4aw")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Save"]
+libraries = {
+"": SubResource("AnimationLibrary_1kmav")
+}
 
 [connection signal="timeout" from="WetherTimer" to="." method="_on_wether_timer_timeout"]
 

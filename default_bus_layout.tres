@@ -14,7 +14,7 @@ damping = 0.32
 
 [resource]
 bus/0/effect/0/effect = SubResource("AudioEffectAmplify_vhlki")
-bus/0/effect/0/enabled = true
+bus/0/effect/0/enabled = false
 bus/0/effect/1/effect = SubResource("AudioEffectLimiter_6ymy5")
 bus/0/effect/1/enabled = true
 bus/1/name = &"rvb"

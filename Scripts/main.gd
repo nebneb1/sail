@@ -11,7 +11,7 @@ const WETHER_CHANGE_PROBABILITY = 15 #1/n check every min
 
 var curr_weather : Weather = Weather.CLEAR
 const MAX_FOG_DENSITY = 0.01
-const WEATHER_CHANGE_DURR = 60.0
+const WEATHER_CHANGE_DURR = 120.0
 var fog_ammount = 0.0
 
 var prev_scale_map = Global.scale_map
@@ -71,12 +71,15 @@ func disable_rain():
 
 func _ready():
 	randomize()
-	Global.dialog = self
 	Global.game = self
+	if Global.save_file_exists():
+		Global.loadd()
+	
+	Global.dialog = self
 	world_env.environment.fog_enabled = true
 	$WetherTimer.start()
-	curr_weather = Weather.RAINY
-	enable_weather(WEATHER_CHANGE_DURR)
+	#curr_weather = Weather.RAINY
+	#enable_weather(WEATHER_CHANGE_DURR)
 
 	speakers["c"] = $CompassNPC.dialog_entity
 	#$CompassNPC.base_convos = [['compass-1', 'compass-2']]

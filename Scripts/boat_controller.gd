@@ -66,17 +66,16 @@ var hit_sand = false
 
 func _ready():
 	Global.boat = self
-	#print(fmod(269.7, 360), " ", fmod(-155, 360), fmod(0, 360))
-	#Debug.track(self, "on_port")
-	#Debug.track(self, "main_sheet_target")
-	#Debug.track(self, "jib_tightness")
-	#Debug.track(self, "tiller_angle")
-	#Debug.track(self, "tiller_target")
-	#Debug.track(self, "speed")
-	#Debug.track(self, "direction")
-	#Debug.track(self, "target_speed")
-	#Debug.track(self, "potential_speed")
-	#Debug.track(self, "optimal_angle")
+	Debug.track(self, "on_port")
+	Debug.track(self, "main_sheet_target")
+	Debug.track(self, "jib_tightness")
+	Debug.track(self, "tiller_angle")
+	Debug.track(self, "tiller_target")
+	Debug.track(self, "speed")
+	Debug.track(self, "direction")
+	Debug.track(self, "target_speed")
+	Debug.track(self, "potential_speed")
+	Debug.track(self, "optimal_angle")
 	
 	
 var time = 0.0
@@ -207,6 +206,11 @@ func _physics_process(delta: float):
 	jib_angle += (jib_target - jib_angle) * jib_accel * delta
 	jib.rotation_degrees.y = jib_angle
 	if anchor_down or hit_sand: 
+		if not Global.saved and anchor_down:
+			
+			Global.save()
+			Global.saved = true
+		
 		if Global.game_started != true:
 			Global.game_started = true
 		target_speed = 0.0
@@ -214,6 +218,9 @@ func _physics_process(delta: float):
 			target_speed = -1.0
 			rot_momentum = -1.0
 	
+	if not anchor_down:
+		Global.saved = false
+		
 	if target_speed > 2.5 and not $IslandCollider.get_overlapping_areas().has(Global.player.get_node("Area3D")):
 		target_speed = 2.5
 	

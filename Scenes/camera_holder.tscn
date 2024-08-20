@@ -25,6 +25,7 @@ transform = Transform3D(0.309456, -0.240492, 0.194747, 0, 0.275414, 0.340107, -0
 projection = 1
 size = 64.286
 near = 0.001
+far = 40000.0
 
 [node name="Control" type="Node2D" parent="."]
 position = Vector2(576, 324)

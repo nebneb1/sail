@@ -278,6 +278,9 @@ shape = SubResource("CapsuleShape3D_h4yuq")
 [node name="sand_time" type="Timer" parent="."]
 wait_time = 5.0
 
+[node name="PlayerSpawn" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.8878, 2.61694, 0.372065)
+
 [connection signal="area_entered" from="IslandCollider" to="." method="_on_island_collider_area_entered"]
 [connection signal="area_exited" from="IslandCollider" to="." method="_on_island_collider_area_exited"]
 [connection signal="timeout" from="sand_time" to="." method="_on_sand_time_timeout"]
