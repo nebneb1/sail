@@ -53,17 +53,17 @@ func enable_weather(speed : float):
 			
 
 func enable_rain():
-	Music.fade_out_all(10.0)
+	#Music.fade_out_all(10.0)
 	print("I WAS CALLED")
 	randomize()
-	if randi_range(0,1) == 1:
-		Music.get_song("Rain1").play()
-		Music.fade_in("Rain1", 10.0)
-	else:
-		Music.get_song("Rain2").play()
-		Music.fade_in("Rain2", 10.0)
-	#Music.fade_in("Ocean", 0.001)
-	Music.disabled = true
+	#if randi_range(0,1) == 1:
+		#Music.get_song("Rain1").play()
+		#Music.fade_in("Rain1", 10.0)
+	#else:
+		#Music.get_song("Rain2").play()
+		#Music.fade_in("Rain2", 10.0)
+	##Music.fade_in("Ocean", 0.001)
+	#Music.disabled = true
 	$CPUParticles3D.emitting = true
 
 func disable_rain():
@@ -72,7 +72,6 @@ func disable_rain():
 
 func _ready():
 	randomize()
-	
 	Global.island_markers = [$ISLAND_POS.global_position,$ISLAND_POS2.global_position,$ISLAND_POS4.global_position]
 	Global.game = self
 	if Global.export:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://r3ttgdkl0v2c"]
+[gd_scene load_steps=14 format=3 uid="uid://r3ttgdkl0v2c"]
 
 [ext_resource type="Script" path="res://Scripts/music_controller.gd" id="1_sbwfo"]
 [ext_resource type="AudioStream" uid="uid://c3vgdld3w52dw" path="res://Audio/Music/[ARGAS]Morse.mp3" id="2_0guut"]
@@ -10,9 +10,7 @@
 [ext_resource type="AudioStream" uid="uid://c716io0xr0q2a" path="res://Audio/Music/[ARGAS]Theme.mp3" id="7_1jgr8"]
 [ext_resource type="AudioStream" uid="uid://dhq5jhqhlx8la" path="res://Audio/Music/[ARGAS]Synth.mp3" id="8_p1awt"]
 [ext_resource type="AudioStream" uid="uid://df5i0gwlcqtre" path="res://Audio/Music/[ARGAS]Main.ogg" id="9_jykb1"]
-[ext_resource type="AudioStream" uid="uid://c8rslrgug2xf2" path="res://Audio/Music/02. Time Until it Stops.mp3" id="10_g4rne"]
 [ext_resource type="AudioStream" uid="uid://div1idirkoyyt" path="res://Audio/Music/[ARGAS]Ocean.ogg" id="10_oc8uq"]
-[ext_resource type="AudioStream" uid="uid://df4lks4ncp3y5" path="res://Audio/Music/03. Vertigo.mp3" id="11_iato4"]
 
 [sub_resource type="GDScript" id="GDScript_groty"]
 script/source = "extends AudioStreamPlayer
@@ -30,7 +28,7 @@ func _process(delta):
 	if not playing and prev_playing:
 		Music.fade_in_all(15.0)
 		Music.disabled = false
-		queue_free()
+		#queue_free()
 	
 	
 	prev_playing = playing
@@ -83,7 +81,7 @@ func _process(delta):
 	if not playing and prev_playing:
 		Music.fade_in_all(15.0)
 		Music.disabled = false
-		queue_free()
+		#queue_free()
 	
 	prev_playing = playing
 	if not manual_vol_overide:
@@ -162,13 +160,11 @@ bus = &"music"
 script = ExtResource("3_u35y1")
 
 [node name="Rain1" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("10_g4rne")
 bus = &"music"
 script = SubResource("GDScript_groty")
 vol_modifier = 0.1
 
 [node name="Rain2" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("11_iato4")
 bus = &"music"
 script = SubResource("GDScript_2cqon")
 vol_modifier = 0.05

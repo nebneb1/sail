@@ -56,10 +56,10 @@ func get_song(song: String):
 	for track in music:
 		if track[0] == song:
 			return track[1]
-	return null
+	#return null
 
 func fade_in(song, time := 1.0):
-	if get_song(song) != null:
+	if get_song(song):
 		get_song(song).fade_in(time)
 		
 		

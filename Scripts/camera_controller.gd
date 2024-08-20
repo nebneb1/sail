@@ -15,7 +15,7 @@ const SENSITIVITY = Vector2(1.0, 1.0)
 const ZOOM_STEP = 1.2
 const ZOOM_SPEED = 2.0
 const MIN_ZOOM = 45.0
-const MAX_ZOOM = 300000.0
+const MAX_ZOOM = 60000.0
 var zoom_target = 60.0
 var zoom = 60.0
 
