@@ -12,13 +12,14 @@ func _ready():
 	og_scale = scale
 
 func _process(delta: float):
-	disabled = global_position.distance_to(Global.player.global_position) < SAFETY_ZONE or global_position.distance_to(Global.boat.global_position) < SAFETY_ZONE
-	if Global.scale_map and not disabled:
-		scale_target = Vector3(ZOOM_SCALE,ZOOM_SCALE,ZOOM_SCALE)
-	else:
-		scale_target = og_scale
-	
-	scale += (scale_target - scale) * SCALE_SPEED * delta
+	if not Global.disable_scales:
+		disabled = global_position.distance_to(Global.player.global_position) < SAFETY_ZONE or global_position.distance_to(Global.boat.global_position) < SAFETY_ZONE
+		if Global.scale_map and not disabled:
+			scale_target = Vector3(ZOOM_SCALE,ZOOM_SCALE,ZOOM_SCALE)
+		else:
+			scale_target = og_scale
+		
+		scale += (scale_target - scale) * SCALE_SPEED * delta
 	
 	
 	

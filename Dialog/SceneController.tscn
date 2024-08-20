@@ -16,7 +16,7 @@ noise = SubResource("FastNoiseLite_5i247")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_g537t"]
 shader = ExtResource("2_0rxgv")
-shader_parameter/color = Color(0.407843, 0.576471, 0.611765, 1)
+shader_parameter/color = Color(0.478431, 0.662745, 0.701961, 1)
 shader_parameter/circle_size = -0.2
 shader_parameter/screen_width = 1920.0
 shader_parameter/screen_height = 1080.0
@@ -29,7 +29,6 @@ shader_parameter/noise = SubResource("NoiseTexture2D_tp50k")
 script = ExtResource("1_2ss1d")
 
 [node name="CanvasLayer2" type="CanvasLayer" parent="."]
-visible = false
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer2"]
 anchors_preset = 15
@@ -37,7 +36,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 1)
+color = Color(0.478431, 0.662745, 0.701961, 0)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 11

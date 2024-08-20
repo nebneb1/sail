@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://be0tg6axfxhsb"
+path="res://.godot/imported/[ARGAS] SFX - Creak2.wav-08cca635f142d10dc7c7e6fc6d4f973b.sample"
+
+[deps]
+
+source_file="res://Audio/SFX/[ARGAS] SFX - Creak2.wav"
+dest_files=["res://.godot/imported/[ARGAS] SFX - Creak2.wav-08cca635f142d10dc7c7e6fc6d4f973b.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

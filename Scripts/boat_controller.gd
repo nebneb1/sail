@@ -14,7 +14,7 @@ const TILT_ACCEL = 2.0
 var target_tilt = 0.0
 var tilt :=  0.0
 
-var direction : float = 10.0 # in degrees cos im a masochist
+var direction : float = 110.0 # in degrees cos im a masochist
 var rot_momentum : float = 0.0
 const ROT_DRAG = 0.5
 
@@ -30,7 +30,7 @@ const JIB_TIGHTENING_SPEED = 0.2
 const JIB_PERFECT_IRONS_BOOST = 1.05
 const JIB_RANGES = [0.85, 0.99] # min for boost, max for perfect
 var jib_perfect_boost := 1.0
-var jib_tightness : Array = [1.0, 0.0]
+var jib_tightness : Array = [0.0, 0.0]
 var jib_target := 0.0
 var jib_accel := 5.0
 var jib_angle := 0.0
@@ -66,16 +66,12 @@ var hit_sand = false
 
 func _ready():
 	Global.boat = self
-	Debug.track(self, "on_port")
-	Debug.track(self, "main_sheet_target")
-	Debug.track(self, "jib_tightness")
-	Debug.track(self, "tiller_angle")
-	Debug.track(self, "tiller_target")
-	Debug.track(self, "speed")
-	Debug.track(self, "direction")
-	Debug.track(self, "target_speed")
-	Debug.track(self, "potential_speed")
-	Debug.track(self, "optimal_angle")
+	change_anchor_visuals()
+	#Debug.track(self, "jib_tightness")
+	#Debug.track(self, "pull_starboard_jib_in")
+	#Debug.track(self, "pull_starboard_jib_out")
+	#Debug.track(self, "pull_port_jib_in")
+	#Debug.track(self, "pull_port_jib_out")
 	
 	
 var time = 0.0
@@ -93,15 +89,23 @@ var target_island : Vector3 = Vector3()
 var distance_from_target_island : int = 0
 # need to add system to know which is which target island
 
+
 func _physics_process(delta: float):
+	target_island = Global.island_target
+	change_anchor_visuals()
 	#COMPASS STUFF
+	$compassrotating.look_at(target_island) # funny solution lol
+	$compassrotating.rotation.y -= PI/2.0
 	$compassrotating.rotation.x = 0.0
 	$compassrotating.rotation.z = 0.0
 	# THIS LINE BELOW DOESNT WORK FOR SOME REASON
-	$compassrotating.rotation.y = atan2(-global_position.z + target_island.z, -global_position.x + target_island.x)
+	#$compassrotating.rotation.y = atan2(-global_position.z + target_island.z, -global_position.x + target_island.x)
 	#$compassrotating.rotation.y += delta
 	distance_from_target_island = ((target_island - global_position) * Vector3(1, 0, 1)).length()
-	$DistLabel.text = str(distance_from_target_island) + "m"
+	if distance_from_target_island >= 1000:
+		$DistLabel.text = str(snapped(distance_from_target_island/1000.0, 0.1)) + "km"
+	else:
+		$DistLabel.text = str(distance_from_target_island) + "m"
 	
 	time += delta
 	disable_controls = false
@@ -136,7 +140,7 @@ func _physics_process(delta: float):
 	if pull_port_jib_out and not disable_controls:
 		tighten_jib(true, -JIB_TIGHTENING_SPEED * delta * 2.0)
 	
-	if pull_port_jib_out and not disable_controls:
+	if pull_starboard_jib_out and not disable_controls:
 		tighten_jib(false, -JIB_TIGHTENING_SPEED * delta * 2.0)
 	
 		
@@ -228,7 +232,7 @@ func _physics_process(delta: float):
 			Global.game_started = true
 		target_speed = 0.0
 		if hit_sand and not anchor_down:
-			target_speed = -1.0
+			target_speed = -6.0
 			rot_momentum = -1.0
 	
 	if not anchor_down:
@@ -342,10 +346,14 @@ func _on_island_collider_area_entered(area: Area3D) -> void:
 		anchor_down = false
 		change_anchor_visuals()
 		rot_momentum = randf_range(COLLISION_ROT_MOME_RANGE, -COLLISION_ROT_MOME_RANGE)
+		$Collide.play()
+	
 	elif area.is_in_group("soft_collider"):
 		anchor_down = true
 		change_anchor_visuals()
 		hit_sand = true
+		if area.is_in_group("final"):
+			Music.fade_out_all(10.0)
 
 func change_anchor_visuals():
 	if anchor_down:

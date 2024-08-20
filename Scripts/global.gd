@@ -7,8 +7,8 @@ var game_started = false
 @onready var player : CharacterBody3D
 @onready var boat : Node3D
 
-var islands_visited = ["starter"]
-
+var island_target = Vector3.ZERO
+@onready var island_markers = []
 var saved = false
 
 var game : Node3D
@@ -21,7 +21,7 @@ var wind_thresholds : Array = [ # in radians
 	[0.0, 0.0], # irons
 	[0.0, 0.0] # danger
 ]
-
+var curr_island_target = Vector3.ZERO
 const DANGER_ZONE_SIZE = 0.0
 const IRONS_ANGLE = 155
 const RELITIVE_THRESHOLDS : Array = [ # in degrees
@@ -38,15 +38,22 @@ var ground_level : float = 0.0
 
 var wind_timer = 0.0
 var wind_switch = 0.0
-const WIND_SWITCH_RANGE = [3600.0, 10800.0]
+const WIND_SWITCH_RANGE = [3600.0, 2700.0]
 const WIND_SWITCH_RATE = [300.0, 600.0]
 const WINDOW_SPEED = 50.0
 
 var scene_controller = null
 var dialog = null
-var export = false
+var export = true
 func convert_vec(vec : Vector2):
 	return Vector3(vec.x, ground_level, vec.y)
+
+var disable_scales = true
+func island_set_target(index : int):
+	if index >= 1:
+		disable_scales = false
+	island_target = island_markers[index]
+
 
 func update_thresholds():
 	for i in range(4):
@@ -64,7 +71,7 @@ func save():
 	
 	
 	var file = FileAccess.open("user://save_game.dat", FileAccess.WRITE)
-	file.store_var([boat.global_position, boat.direction, wind_direction, islands_visited])
+	file.store_var([boat.global_position, boat.direction, wind_direction, island_target])
 	file.close()
 	
 
@@ -85,7 +92,7 @@ func loadd():
 	boat.global_position = contents[0]
 	boat.direction = contents[1]
 	wind_direction = contents[2]
-	islands_visited = contents[3]
+	island_target = contents[3]
 	
 	player.global_position = boat.get_node("PlayerSpawn").global_position
 	

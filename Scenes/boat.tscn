@@ -1,7 +1,8 @@
-[gd_scene load_steps=41 format=4 uid="uid://066v4xi0gjgg"]
+[gd_scene load_steps=48 format=4 uid="uid://066v4xi0gjgg"]
 
 [ext_resource type="Script" path="res://Scripts/boat_controller.gd" id="1_4oqbt"]
 [ext_resource type="PackedScene" uid="uid://dhcsvjjd6k3cy" path="res://Assets/compassbase.glb" id="2_a8gbv"]
+[ext_resource type="PackedScene" uid="uid://dji8pgdpu7p4m" path="res://Assets/Ropes.glb" id="2_i2x56"]
 [ext_resource type="PackedScene" uid="uid://d0okpnwtmmrir" path="res://Assets/shiptest.glb" id="2_nxwff"]
 [ext_resource type="PackedScene" uid="uid://c5pfim2sqjej" path="res://Assets/anchorbase.glb" id="2_tek1i"]
 [ext_resource type="FontFile" uid="uid://bcb476cgdndqb" path="res://Assets/Pangolin-Regular.ttf" id="2_txff7"]
@@ -12,6 +13,8 @@
 [ext_resource type="Shader" path="res://Scenes/telltale2.gdshader" id="4_n7qem"]
 [ext_resource type="PackedScene" uid="uid://jh3ff12c5vo4" path="res://Assets/anchor.glb" id="4_r3qsk"]
 [ext_resource type="PackedScene" uid="uid://b2c62hftoohlx" path="res://Assets/tiller.glb" id="5_r3iv1"]
+[ext_resource type="PackedScene" uid="uid://bflvtgcstbcun" path="res://Assets/jib1.glb" id="12_i514n"]
+[ext_resource type="AudioStream" uid="uid://cto5sq382gheo" path="res://Audio/SFX/[ARGAS] SFX - BoatCollide.wav" id="13_u8hb2"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_pinpb"]
 rough = true
@@ -261,19 +264,37 @@ radius = 2.2671
 radius = 2.2671
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_h4yuq"]
-radius = 3.95758
-height = 31.5745
+radius = 3.70092
+height = 27.972
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_wu4ob"]
+random_pitch = 1.1
+streams_count = 1
+stream_0/stream = ExtResource("13_u8hb2")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1ijju"]
+size = Vector3(8.94695, 1.37939, 1)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_n80gp"]
+height = 3.06217
+radius = 0.803259
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_dvfxe"]
+height = 3.06217
+radius = 0.254288
 
 [node name="Boat" type="AnimatableBody3D" node_paths=PackedStringArray("main_sheet_ghost", "main_sheet", "jib", "telltale", "tiller")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 physics_material_override = SubResource("PhysicsMaterial_pinpb")
 sync_to_physics = false
 script = ExtResource("1_4oqbt")
 main_sheet_ghost = NodePath("Mast/MainSheetGhost")
 main_sheet = NodePath("Mast/MainSheet")
-jib = NodePath("Mast/Jib")
+jib = NodePath("Mast/Jibref/Jib/Jib2")
 telltale = NodePath("Mast/Telltale")
 tiller = NodePath("Tiller")
+
+[node name="Ropes" parent="." instance=ExtResource("2_i2x56")]
+transform = Transform3D(-19.968, 0, 1.13072, 0, 20, 0, -1.13072, 0, -19.968, -1.89752, -1.46093, -0.40065)
 
 [node name="DistLabel" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.95044, 6.77074, 3.87761)
@@ -285,7 +306,7 @@ font_size = 272
 outline_size = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(19.9765, -4.22837e-08, -0.970022, 4.23948e-08, 20, 1.25975e-09, 0.970022, -3.31446e-09, 19.9765, 0.0106293, 2.00719, 0.0427815)
+transform = Transform3D(19.9765, -4.22837e-08, -0.970022, 4.23948e-08, 20, 1.25975e-09, 0.970022, -3.31446e-09, 19.9765, 0.0106293, 0.449976, 0.0427815)
 shape = SubResource("ConcavePolygonShape3D_w07va")
 
 [node name="compassbase" parent="." instance=ExtResource("2_a8gbv")]
@@ -333,29 +354,31 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.6269, 24.0231, -0.487442)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Mast/Telltale"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.99134, 0.130005, 0.0457153)
+visible = false
 size = Vector3(1.72446, 0.350567, 0.194702)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Mast/Telltale"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.87483, 0.620424, 0.0178652)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.87483, -1.06195, 0.0178652)
 material_override = SubResource("ShaderMaterial_1ak5d")
 mesh = SubResource("PlaneMesh_qudu7")
 surface_material_override/0 = SubResource("StandardMaterial3D_x8t52")
 
 [node name="MainSheet" type="Node3D" parent="Mast"]
-transform = Transform3D(0.695687, 0, 0.718345, 0, 1, 0, -0.718345, 0, 0.695687, -3.06136, 16.2349, -0.0160122)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.77569, 16.2349, -0.401715)
 
 [node name="sailback" parent="Mast/MainSheet" instance=ExtResource("3_2i5w6")]
-transform = Transform3D(13.0671, -2.05369e-07, -15.141, 6.62863e-07, 20, 3.00793e-07, 15.141, -6.98346e-07, 13.0671, 3.03941, -16.225, 2.9464)
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 4.71195, -16.225, -0.0668331)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Mast/MainSheet"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.36108, 3.35666, 0)
+visible = false
 size = Vector3(6.56076, 6.90039, 0.0476074)
 
 [node name="MainSheetGhost" type="Node3D" parent="Mast"]
-transform = Transform3D(0.739302, 0, -0.673374, 0, 1, 0, 0.673374, 0, 0.739302, -3.16266, 16.1588, -0.0214839)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.77569, 16.2349, -0.401715)
 
 [node name="sailback2" type="Node3D" parent="Mast/MainSheetGhost"]
-transform = Transform3D(15.5339, -7.04305e-07, 12.5975, 6.62863e-07, 20, 3.00793e-07, -12.5975, 1.83898e-07, 15.5339, 3.11662, -16.149, -3.01197)
+transform = Transform3D(20, -6.62874e-07, 0.000683308, 6.62863e-07, 20, 3.00793e-07, -0.000683308, -3.00769e-07, 20, 4.72752, -16.2262, -0.0913749)
 
 [node name="Plane_005" type="MeshInstance3D" parent="Mast/MainSheetGhost/sailback2"]
 transform = Transform3D(0.267757, 0, -4.71845e-16, 3.11383e-16, -1.38299e-07, -0.370842, -1.16415e-10, 0.386711, -1.32624e-07, 0.047301, 0.778611, -0.0011599)
@@ -369,21 +392,45 @@ skeleton = NodePath("")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Mast/MainSheetGhost"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.36108, 3.35666, 0)
+visible = false
 size = Vector3(6.56076, 6.90039, 0.0476074)
 material = SubResource("StandardMaterial3D_mdy02")
 
-[node name="Jib" type="Node3D" parent="Mast"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.0794, 1.82262, -0.151952)
+[node name="Jibref" type="Node3D" parent="Mast"]
+transform = Transform3D(0.976251, 0.216644, 0, -0.216644, 0.976251, 0, 0, 0, 1, -15.3946, 2.69188, -0.821186)
 
-[node name="sailfront" parent="Mast/Jib" instance=ExtResource("4_jwbw0")]
-transform = Transform3D(19.972, -4.61533e-08, -1.05892, 4.62856e-08, 20, 1.27226e-09, 1.05892, -3.7211e-09, 19.972, 0.0484028, -1.67942, -0.530506)
+[node name="sailfront" parent="Mast/Jibref" instance=ExtResource("4_jwbw0")]
+transform = Transform3D(19.5732, 0, -4.11009, 0, 20, 0, 4.11009, 0, 19.5732, 8.91725, -2.22341, 1.68729)
+visible = false
 
-[node name="CSGBox3D2" type="CSGBox3D" parent="Mast/Jib"]
+[node name="CSGBox3D2" type="CSGBox3D" parent="Mast/Jibref"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.51436, 17.8298, 0.146233)
+visible = false
 size = Vector3(2.13304, 6.90039, 0.0476074)
+
+[node name="Jib" type="Node3D" parent="Mast/Jibref"]
+transform = Transform3D(0.921997, 0.382683, -0.0589442, -0.381904, 0.923879, 0.0244155, 0.0638008, -1.86264e-09, 0.997963, 1.88168, -0.168168, 0.0382767)
+
+[node name="sailfront" parent="Mast/Jibref/Jib" instance=ExtResource("4_jwbw0")]
+transform = Transform3D(19.5732, 0, -4.11009, 0, 20, 0, 4.11009, 0, 19.5732, 8.91725, -2.22341, 1.68729)
+visible = false
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Mast/Jibref/Jib"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.51436, 17.8298, 0.146233)
+visible = false
+size = Vector3(2.13304, 6.90039, 0.0476074)
+
+[node name="Marker3D" type="Marker3D" parent="Mast/Jibref/Jib"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.35128e-10, 5.34447, -2.48357e-08)
+
+[node name="Jib2" type="Node3D" parent="Mast/Jibref/Jib"]
+
+[node name="jib1" parent="Mast/Jibref/Jib/Jib2" instance=ExtResource("12_i514n")]
+transform = Transform3D(16.5677, -11.2032, 1.19209e-07, 11.2032, 16.5677, 2.24276e-08, -1.19209e-07, 0, 20, 5.32281, 1.31048, -0.0629549)
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="Mast"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.03718, 4.57711, 0)
+visible = false
 size = Vector3(0.46167, 10.8299, 0.500732)
 
 [node name="Tiller" type="Node3D" parent="."]
@@ -398,6 +445,7 @@ size = Vector3(0.782654, 2.52828, 0.103271)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.4185, 0)
+visible = false
 size = Vector3(14, 1.67571, 4.81592)
 material = SubResource("StandardMaterial3D_s724b")
 
@@ -463,14 +511,33 @@ shape = SubResource("SphereShape3D_417ge")
 [node name="IslandCollider" type="Area3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="IslandCollider"]
-transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -4.44089e-16, 0, 1, -0.208611, 3.12956, -0.0112687)
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -4.44089e-16, 0, 1, 1.05374, 0.771995, -0.0112687)
 shape = SubResource("CapsuleShape3D_h4yuq")
 
 [node name="sand_time" type="Timer" parent="."]
 wait_time = 5.0
 
 [node name="PlayerSpawn" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.8878, 2.61694, 0.372065)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.239484, 2.71212, 0.660664)
+
+[node name="Collide" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_wu4ob")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.997406, 0, -0.0719849, 0, 1, 0, 0.0719849, 0, 0.997406, 0.393409, 0.854949, -0.32591)
+shape = SubResource("BoxShape3D_1ijju")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.997406, 0, -0.0719849, 0, 1, 0, 0.0719849, 0, 0.997406, -9.36297, 0.854949, -1.13065)
+shape = SubResource("CylinderShape3D_n80gp")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.997406, 0, -0.0719849, 0, 1, 0, 0.0719849, 0, 0.997406, -10.8691, 0.854949, -0.663528)
+shape = SubResource("CylinderShape3D_n80gp")
+
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.988891, 0.130049, -0.0719849, -0.130388, 0.991463, -9.31323e-10, 0.0713703, 0.00938595, 0.997406, 9.20977, 2.61225, 3.72123)
+shape = SubResource("CylinderShape3D_dvfxe")
 
 [connection signal="area_entered" from="IslandCollider" to="." method="_on_island_collider_area_entered"]
 [connection signal="area_exited" from="IslandCollider" to="." method="_on_island_collider_area_exited"]

@@ -2,7 +2,7 @@
 
 [sub_resource type="AudioEffectAmplify" id="AudioEffectAmplify_vhlki"]
 resource_name = "Amplify"
-volume_db = -7.5
+volume_db = -6.0
 
 [sub_resource type="AudioEffectLimiter" id="AudioEffectLimiter_6ymy5"]
 resource_name = "Limiter"
@@ -14,7 +14,7 @@ damping = 0.32
 
 [resource]
 bus/0/effect/0/effect = SubResource("AudioEffectAmplify_vhlki")
-bus/0/effect/0/enabled = false
+bus/0/effect/0/enabled = true
 bus/0/effect/1/effect = SubResource("AudioEffectLimiter_6ymy5")
 bus/0/effect/1/enabled = true
 bus/1/name = &"rvb"
@@ -25,3 +25,9 @@ bus/1/volume_db = 0.0
 bus/1/send = &"Master"
 bus/1/effect/0/effect = SubResource("AudioEffectReverb_b26j3")
 bus/1/effect/0/enabled = true
+bus/2/name = &"music"
+bus/2/solo = false
+bus/2/mute = false
+bus/2/bypass_fx = false
+bus/2/volume_db = -4.25003
+bus/2/send = &"Master"

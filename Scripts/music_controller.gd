@@ -7,7 +7,7 @@ var random_pool : Array = []
 
 
 func _ready():
-	Debug.track(self, "disabled")
+	#Debug.track(self, "disabled")
 	randomize()
 	for child in get_children():
 		if child is AudioStreamPlayer:
@@ -56,10 +56,11 @@ func get_song(song: String):
 	for track in music:
 		if track[0] == song:
 			return track[1]
-	
+	return null
 
 func fade_in(song, time := 1.0):
-	get_song(song).fade_in(time)
+	if get_song(song) != null:
+		get_song(song).fade_in(time)
 		
 		
 func fade_out(song, time := 1.0):

@@ -10,7 +10,7 @@ shader_parameter/inner_radius = 0.18
 shader_parameter/outer_radius = 0.22
 shader_parameter/vignette_strength = 1.0
 shader_parameter/dither_strength = 0.03
-shader_parameter/vignette_color = Color(0.422817, 0.579602, 0.618797, 1)
+shader_parameter/vignette_color = Color(0.548837, 0.717487, 0.752786, 1)
 
 [node name="CameraHolder" type="Node3D" node_paths=PackedStringArray("sea", "sea2", "zoom_in_pos", "zoom_out_pos")]
 transform = Transform3D(2.285, 0, 0, 0, 2.285, 0, 0, 0, 2.285, 0, 0, 0)

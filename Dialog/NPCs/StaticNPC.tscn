@@ -1,8 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://drbqcv7ncy4ux"]
+[gd_scene load_steps=12 format=3 uid="uid://drbqcv7ncy4ux"]
 
 [ext_resource type="Script" path="res://Dialog/NPCs/StaticNPC.gd" id="1_8o8yl"]
 [ext_resource type="PackedScene" uid="uid://bixi67x2r0wwx" path="res://Dialog/Dialog.tscn" id="2_y75fg"]
 [ext_resource type="PackedScene" uid="uid://bqxadnnukgmy1" path="res://Scenes/Notifier.tscn" id="3_cy5s6"]
+[ext_resource type="AudioStream" uid="uid://7lpiqihir2tk" path="res://Audio/SFX/ABS-SFX-VocalDeep.mp3" id="4_ii66j"]
+[ext_resource type="AudioStream" uid="uid://3cnj4tixskcu" path="res://Audio/SFX/ABS-SFX-VocalHuman.mp3" id="5_nweq4"]
+[ext_resource type="AudioStream" uid="uid://ben8vsdla8i3m" path="res://Audio/SFX/ABS-SFX-VocalHuman2.mp3" id="6_52wcp"]
+[ext_resource type="AudioStream" uid="uid://d4j2717r1anoi" path="res://Audio/SFX/ABS-SFX-VocalWritten.mp3" id="7_uymmi"]
+[ext_resource type="AudioStream" uid="uid://kwi7ql1pgkej" path="res://Audio/SFX/ABS-SFX-VocalTech.mp3" id="8_7owft"]
+[ext_resource type="AudioStream" uid="uid://dwwgaolcx4qbs" path="res://Audio/SFX/ABS-SFX-VocalTechRev.mp3" id="9_apapq"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_n1ws0"]
 viewport_path = NodePath("SubViewport")
@@ -38,3 +44,23 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.706, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CylinderShape3D_c5584")
+
+[node name="Node" type="Node" parent="."]
+
+[node name="deep" type="AudioStreamPlayer" parent="Node"]
+stream = ExtResource("4_ii66j")
+
+[node name="human1" type="AudioStreamPlayer" parent="Node"]
+stream = ExtResource("5_nweq4")
+
+[node name="human2" type="AudioStreamPlayer" parent="Node"]
+stream = ExtResource("6_52wcp")
+
+[node name="written" type="AudioStreamPlayer" parent="Node"]
+stream = ExtResource("7_uymmi")
+
+[node name="tech" type="AudioStreamPlayer" parent="Node"]
+stream = ExtResource("8_7owft")
+
+[node name="techrev" type="AudioStreamPlayer" parent="Node"]
+stream = ExtResource("9_apapq")

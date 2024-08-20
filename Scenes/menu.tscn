@@ -257,9 +257,9 @@ offset_bottom = 594.0
 size_flags_vertical = 3
 theme = ExtResource("4_61e8x")
 bbcode_enabled = true
-text = "[wave][tornado ] a   relaxing   game
+text = "[wave][tornado ] a   long   game
 
-                     about   sailing"
+                about   sailing"
 
 [node name="Button" type="Button" parent="Control"]
 visible = false

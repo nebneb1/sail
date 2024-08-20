@@ -8,12 +8,12 @@ var vol := 1.0
 
 var targ := 0.0
 var manual_vol_overide := false
-var prev_playing
+#var prev_playing
 func _process(delta):
-	if not playing and prev_playing:
-		Music.fade_in_all(15.0)
-	
-	prev_playing = playing
+	#if not playing and prev_playing:
+		#Music.fade_in_all(15.0)
+	#
+	#prev_playing = playing
 	if not manual_vol_overide:
 		if on: targ =  1.0
 		else: targ = 0.0

@@ -33,9 +33,9 @@ var npc_input_need : DialogEntity = null
 var choice_input_need : bool = false
 
 func _ready():
-	Debug.track(self, "enable_interact")
-	Debug.track(self, "interact_name")
-	Debug.track(self, "velocity")
+	#Debug.track(self, "enable_interact")
+	#Debug.track(self, "interact_name")
+	#Debug.track(self, "velocity")
 	Global.player = self
 	boat = Global.boat
 		

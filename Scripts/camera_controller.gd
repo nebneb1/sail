@@ -14,7 +14,7 @@ const SENSITIVITY = Vector2(1.0, 1.0)
 
 const ZOOM_STEP = 1.2
 const ZOOM_SPEED = 2.0
-const MIN_ZOOM = 50.0
+const MIN_ZOOM = 45.0
 const MAX_ZOOM = 300000.0
 var zoom_target = 60.0
 var zoom = 60.0
@@ -37,11 +37,13 @@ func enable():
 	movement_enabled = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
+const LERP = 1.0
+
 func _process(delta: float):
 	rotation.y += velocity.x*delta*SENSITIVITY.x
 	if velocity.x > 0: velocity.x -= velocity.x*DRAG*delta
 	elif velocity.x < 0: velocity.x -= velocity.x*DRAG*delta
-	if target: global_position = lerp(global_position, target.global_position, delta * 1.0)
+	if target: global_position = lerp(global_position, target.global_position, delta * LERP)
 	
 	if abs(zoom_target - zoom) > 0.001:
 		zoom += (zoom_target - zoom) * ZOOM_SPEED * delta

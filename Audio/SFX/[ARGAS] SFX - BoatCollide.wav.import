@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cto5sq382gheo"
+path="res://.godot/imported/[ARGAS] SFX - BoatCollide.wav-4dcdd6f6e92210e50f848a29c6ca97b0.sample"
+
+[deps]
+
+source_file="res://Audio/SFX/[ARGAS] SFX - BoatCollide.wav"
+dest_files=["res://.godot/imported/[ARGAS] SFX - BoatCollide.wav-4dcdd6f6e92210e50f848a29c6ca97b0.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

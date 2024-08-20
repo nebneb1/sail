@@ -1,0 +1,64 @@
+[gd_scene load_steps=10 format=3 uid="uid://b3n1o6hi62c5w"]
+
+[ext_resource type="Script" path="res://Scenes/sfx_controller.gd" id="1_t3ya2"]
+[ext_resource type="AudioStream" uid="uid://cto5sq382gheo" path="res://Audio/SFX/[ARGAS] SFX - BoatCollide.wav" id="2_xebmc"]
+[ext_resource type="AudioStream" uid="uid://dgpg3c2u1f8se" path="res://Audio/SFX/[ARGAS] SFX - Creak1.wav" id="3_qongk"]
+[ext_resource type="AudioStream" uid="uid://be0tg6axfxhsb" path="res://Audio/SFX/[ARGAS] SFX - Creak2.wav" id="4_k3vbm"]
+[ext_resource type="AudioStream" uid="uid://cr720dxopcnbw" path="res://Audio/SFX/[ARGAS] SFX - Creak3.wav" id="5_bv0h0"]
+[ext_resource type="AudioStream" uid="uid://dda8iydv6dq5u" path="res://Audio/SFX/[ARGAS] SFX - Rope.ogg" id="6_h2uhd"]
+[ext_resource type="AudioStream" uid="uid://vwhs1e8wgpeu" path="res://Audio/SFX/[ARGAS] SFX - SailFlap.ogg" id="7_jgy3y"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_wa1o0"]
+random_pitch = 1.1
+streams_count = 1
+stream_0/stream = ExtResource("2_xebmc")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_svsnd"]
+random_pitch = 1.5
+streams_count = 3
+stream_0/stream = ExtResource("3_qongk")
+stream_1/stream = ExtResource("4_k3vbm")
+stream_2/stream = ExtResource("5_bv0h0")
+
+[node name="SFXController" type="Node"]
+script = ExtResource("1_t3ya2")
+
+[node name="Collide" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_wa1o0")
+
+[node name="Creak" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_svsnd")
+
+[node name="Rope" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_h2uhd")
+autoplay = true
+
+[node name="Sail" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_jgy3y")
+volume_db = -80.0
+autoplay = true
+
+[node name="Vocal1" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_jgy3y")
+volume_db = -80.0
+autoplay = true
+
+[node name="Vocal2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_jgy3y")
+volume_db = -80.0
+autoplay = true
+
+[node name="Vocal3" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_jgy3y")
+volume_db = -80.0
+autoplay = true
+
+[node name="Vocal4" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_jgy3y")
+volume_db = -80.0
+autoplay = true
+
+[node name="Vocal5" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_jgy3y")
+volume_db = -80.0
+autoplay = true

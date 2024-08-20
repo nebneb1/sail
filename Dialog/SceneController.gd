@@ -4,7 +4,8 @@ class_name Episode
 
 var scenes_in_game : Dictionary = {
 	"menu" : preload("res://Scenes/menu.tscn"),
-	"game" : preload("res://Scenes/main.tscn")
+	"game" : preload("res://Scenes/main.tscn"),
+	"end" : preload("res://Scenes/end.tscn")
 }
 var cur_scene_name = 3
 var cur_scene = null
@@ -18,7 +19,7 @@ var transitioning : bool = false
 var trans_type = "pinhole"
 
 func _ready():
-	$CanvasLayer2/ColorRect.color = "000000"
+	#$CanvasLayer2/ColorRect.color = "000000"
 	add_to_group('controller')
 	call_deferred("switch_scene", "menu", 0.0, 2.0, "pinhole")
 	Global.scene_controller = self
@@ -28,7 +29,7 @@ func switch_scene(new_scene_name, in_time : float = 0.0, out_time : float = 0.0,
 	if !transitioning and scenes_in_game.keys().has(new_scene_name):
 		if full_fade_out:
 			ff = out_time
-			Music.full_fade_out(in_time/10)
+			#Music.full_fade_out(in_time/10)
 		else: ff = 0.0
 #		effect_out = sound_effect_out
 #		match sound_effect_in:
@@ -66,8 +67,8 @@ func fade_out():
 #		"relax": $SFX/relax.play(193)
 #
 #	effect_out = "none"
-	if ff != 0.0:
-		Music.full_fade_in(ff/10)
+	#if ff != 0.0:
+		#Music.full_fade_in(ff/10)
 	if cur_scene != null:
 		cur_scene.free()
 	cur_scene = scenes_in_game[cur_scene_name].instantiate()

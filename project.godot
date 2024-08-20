@@ -22,11 +22,12 @@ boot_splash/minimum_display_time=1025
 [autoload]
 
 Global="*res://Scripts/global.gd"
-Debug="*res://Scenes/debug.tscn"
 Music="*res://Scenes/music_controller.tscn"
 
 [display]
 
+window/size/viewport_width=1920
+window/size/viewport_height=1080
 window/size/mode=3
 window/size/borderless=true
 

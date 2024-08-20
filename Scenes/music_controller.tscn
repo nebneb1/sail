@@ -30,6 +30,8 @@ func _process(delta):
 	if not playing and prev_playing:
 		Music.fade_in_all(15.0)
 		Music.disabled = false
+		queue_free()
+	
 	
 	prev_playing = playing
 	if not manual_vol_overide:
@@ -65,7 +67,7 @@ func fade_in(time := 1.0):
 	on = true
 "
 
-[sub_resource type="GDScript" id="GDScript_wv4gw"]
+[sub_resource type="GDScript" id="GDScript_2cqon"]
 script/source = "extends AudioStreamPlayer
 
 @export var vol_modifier = 1.0
@@ -81,6 +83,7 @@ func _process(delta):
 	if not playing and prev_playing:
 		Music.fade_in_all(15.0)
 		Music.disabled = false
+		queue_free()
 	
 	prev_playing = playing
 	if not manual_vol_overide:
@@ -121,44 +124,53 @@ script = ExtResource("1_sbwfo")
 
 [node name="Morse" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_0guut")
+bus = &"music"
 script = ExtResource("3_u35y1")
 vol_modifier = 0.6
 
 [node name="Flashes" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_tvxy4")
+bus = &"music"
 script = ExtResource("3_u35y1")
 vol_modifier = 0.4
 
 [node name="Guitar" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_52ue4")
+bus = &"music"
 script = ExtResource("3_u35y1")
 vol_modifier = 0.5
 
 [node name="Pluck" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_jork2")
+bus = &"music"
 script = ExtResource("3_u35y1")
 vol_modifier = 0.5
 
 [node name="ThemeDistant" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_nek3l")
+bus = &"music"
 script = ExtResource("3_u35y1")
 
 [node name="Theme" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("7_1jgr8")
+bus = &"music"
 script = ExtResource("3_u35y1")
 
 [node name="Synth" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_p1awt")
+bus = &"music"
 script = ExtResource("3_u35y1")
 
 [node name="Rain1" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("10_g4rne")
+bus = &"music"
 script = SubResource("GDScript_groty")
 vol_modifier = 0.1
 
 [node name="Rain2" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("11_iato4")
-script = SubResource("GDScript_wv4gw")
+bus = &"music"
+script = SubResource("GDScript_2cqon")
 vol_modifier = 0.05
 
 [node name="BG" type="Node" parent="."]
@@ -166,6 +178,7 @@ vol_modifier = 0.05
 [node name="Main" type="AudioStreamPlayer" parent="BG"]
 stream = ExtResource("9_jykb1")
 volume_db = -80.0
+bus = &"music"
 script = ExtResource("3_u35y1")
 
 [node name="Ocean" type="AudioStreamPlayer" parent="BG"]

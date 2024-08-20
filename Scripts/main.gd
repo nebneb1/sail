@@ -54,6 +54,7 @@ func enable_weather(speed : float):
 
 func enable_rain():
 	Music.fade_out_all(10.0)
+	print("I WAS CALLED")
 	randomize()
 	if randi_range(0,1) == 1:
 		Music.get_song("Rain1").play()
@@ -71,9 +72,12 @@ func disable_rain():
 
 func _ready():
 	randomize()
+	
+	Global.island_markers = [$ISLAND_POS.global_position,$ISLAND_POS2.global_position,$ISLAND_POS4.global_position]
 	Global.game = self
-	if Global.save_file_exists():
-		Global.loadd()
+	if Global.export:
+		if Global.save_file_exists():
+			Global.loadd()
 	
 	Global.dialog = self
 	world_env.environment.fog_enabled = true
@@ -88,6 +92,8 @@ func _ready():
 	speakers["g"] = $GrandpaNPC.dialog_entity
 	#$CompassNPC.base_convos = [['compass-1', 'compass-2']]
 	init_dialog("res://Dialog/script.txt", Global.export)
+	await get_tree().process_frame
+	Global.island_set_target(0)
 
 func _on_wether_timer_timeout() -> void:
 	$WetherTimer.start()
@@ -226,8 +232,8 @@ func start_convo(convo_name : String):
 	# continue here
 	for participant in new_convo["participants"]:
 		speakers[participant].cur_convo_name = convo_name
-	if new_convo["lock_player"]:
-		$Player.disable = true
+	#if new_convo["lock_player"]:
+		#$Player.disable = true
 	var start_snippet_name = "init"
 	var start_convo_pos = 0
 	var start_speaker = speakers[convos[convo_name]["snippets"][start_snippet_name][0][0]]
@@ -240,7 +246,7 @@ func end_convo(convo_name : String):
 		return
 		
 	var new_convo = convos[convo_name]
-	if new_convo["lock_player"]:
-		$Player.disable = false
+	#if new_convo["lock_player"]:
+		#$Player.disable = falsee
 	for participant in new_convo["participants"]:
 		speakers[participant].leave_convo()
